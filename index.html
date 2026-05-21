@@ -1,739 +1,791 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
-<title>Metnaker — المتنكر</title>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,700;9..144,900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<title>Imposteur</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#f9f6f1;--surf:#fff;--b1:#e8e0d4;--b2:#d4c9b8;
-  --ink:#18120a;--ink2:#52412e;--ink3:#9a8470;
-  --gold:#c8920a;--goldbg:#fdf3d8;
-  --grn:#1c4a30;--grnbg:#ddf0e5;
-  --red:#b83223;--redbg:#fdecea;
-  --gray:#f0ece6;
-  --fd:'Fraunces',Georgia,serif;
-  --fu:'DM Sans',system-ui,sans-serif;
-  --r:12px;--rl:18px;
+  --bg:#f7f4ef;
+  --surf:#ffffff;
+  --b1:#eae4da;
+  --b2:#d6cec0;
+  --ink:#14100a;
+  --ink2:#5a4e3e;
+  --ink3:#a0907a;
+  --gold:#b8860b;
+  --goldbg:#fdf4dc;
+  --grn:#1b4530;
+  --grnbg:#dff0e8;
+  --red:#b52b1e;
+  --redbg:#fce9e7;
+  --fd:'Instrument Serif',Georgia,serif;
+  --fu:'Inter',system-ui,sans-serif;
+  --r:10px;
+  --rl:16px;
 }
-html,body{font-family:var(--fu);background:var(--bg);color:var(--ink);min-height:100svh;-webkit-tap-highlight-color:transparent;overflow-x:hidden}
-.screen{display:none;flex-direction:column;min-height:100svh}
+html,body{font-family:var(--fu);background:var(--bg);color:var(--ink);min-height:100svh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+
+/* ── screens ── */
+.screen{display:none;flex-direction:column;min-height:100svh;animation:fadeIn .18s ease}
 .screen.active{display:flex}
-/* topbar */
-.topbar{display:flex;align-items:center;padding:0 8px;height:56px;background:var(--surf);border-bottom:1px solid var(--b1);position:sticky;top:0;z-index:10}
-.topbar-title{font-family:var(--fd);font-size:17px;font-weight:700;flex:1;text-align:center;color:var(--ink)}
-.icon-btn{width:36px;height:36px;border-radius:50%;border:none;background:transparent;color:var(--ink2);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .12s}
-.icon-btn:active{background:var(--b1)}
-/* scroll */
-.scroll-area{flex:1;overflow-y:auto;padding:16px 16px 4px;display:flex;flex-direction:column;gap:10px}
-/* bottom bar */
-.bot{padding:12px 16px 32px;background:var(--surf);border-top:1px solid var(--b1);display:flex;flex-direction:column;gap:8px}
-.bot.two{flex-direction:row;gap:10px}
-.bot.two .btn-fill{flex:1.4}
-.bot.two .btn-out{flex:1}
-.bot.rev{background:transparent;border-top:1px solid rgba(255,255,255,.12)}
-/* buttons */
-.btn-fill{width:100%;padding:15px;background:var(--ink);color:#fff;border:none;border-radius:var(--r);font-family:var(--fd);font-size:16px;font-weight:700;cursor:pointer;transition:opacity .12s,transform .1s}
-.btn-fill:active{transform:scale(.98);opacity:.85}
-.btn-fill:disabled{opacity:.3;pointer-events:none}
-.btn-ghost{width:100%;padding:13px;background:transparent;color:var(--ink2);border:1.5px solid var(--b2);border-radius:var(--r);font-family:var(--fu);font-size:15px;font-weight:500;cursor:pointer;transition:background .12s}
-.btn-ghost:active{background:var(--b1)}
-.btn-out{padding:13px;background:var(--bg);color:var(--ink2);border:1.5px solid var(--b2);border-radius:var(--r);font-family:var(--fu);font-size:15px;font-weight:500;cursor:pointer;transition:background .12s}
-.btn-out:active{background:var(--b1)}
-.btn-danger{width:100%;padding:15px;background:var(--red);color:#fff;border:none;border-radius:var(--r);font-family:var(--fd);font-size:16px;font-weight:700;cursor:pointer;transition:opacity .12s,transform .1s}
-.btn-danger:active{transform:scale(.98);opacity:.85}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
-/* ── SPLASH ── */
-#s-splash{background:var(--ink);justify-content:center}
-.spl-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 24px 0;text-align:center}
-.spl-flag{font-size:52px;margin-bottom:18px}
-.spl-title{font-family:var(--fd);font-size:64px;font-weight:900;color:#fff;line-height:1;letter-spacing:-2px}
-.spl-ar{font-size:22px;color:rgba(255,255,255,.35);font-weight:300;margin-top:6px;letter-spacing:3px}
-.spl-tag{font-size:15px;color:rgba(255,255,255,.4);margin-top:10px;font-style:italic}
-.spl-btns{padding:40px 24px 0;display:flex;flex-direction:column;gap:10px;width:100%}
-.spl-btns .btn-fill{background:#fff;color:var(--ink);font-size:17px;padding:17px}
-.spl-btns .btn-ghost{border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.55)}
-.spl-credit{text-align:center;font-size:12px;color:rgba(255,255,255,.18);padding:20px 0 28px}
+/* ── topbar ── */
+.tb{display:flex;align-items:center;height:52px;padding:0 6px;background:var(--surf);border-bottom:1px solid var(--b1);position:sticky;top:0;z-index:20}
+.tb-title{font-family:var(--fd);font-size:17px;font-style:italic;flex:1;text-align:center;color:var(--ink);letter-spacing:.2px}
+.ib{width:36px;height:36px;border-radius:50%;border:none;background:transparent;color:var(--ink2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s;flex-shrink:0}
+.ib:active{background:var(--b1)}
 
-/* ── RULES ── */
-.rule-sec{background:var(--surf);border:1px solid var(--b1);border-radius:var(--rl);padding:20px}
-.rule-n{font-family:var(--fd);font-size:13px;font-weight:700;color:var(--ink3);letter-spacing:1px;margin-bottom:4px}
-.rule-h{font-family:var(--fd);font-size:20px;font-weight:700;margin-bottom:14px;color:var(--ink)}
-.role-item{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.role-item:last-child{margin-bottom:0}
-.pill{padding:4px 12px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:.5px;white-space:nowrap;text-transform:uppercase;flex-shrink:0}
-.pill-c{background:var(--grnbg);color:var(--grn)}
-.pill-i{background:var(--redbg);color:var(--red)}
-.pill-b{background:var(--gray);color:var(--ink3)}
-.role-desc{font-size:13px;color:var(--ink2);line-height:1.5}
-.rule-p{font-size:14px;color:var(--ink2);line-height:1.65}
-.rule-steps{display:flex;flex-direction:column;gap:10px}
-.rule-step{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--ink2);line-height:1.5}
-.step-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:7px}
+/* ── layout ── */
+.body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.bar{padding:12px 16px 30px;background:var(--surf);border-top:1px solid var(--b1);display:flex;flex-direction:column;gap:8px}
+.bar.row{flex-direction:row;gap:8px}
+.bar.row .bf{flex:1}
+.bar.tr{background:transparent;border-top:1px solid rgba(255,255,255,.1)}
 
-/* ── SETUP ── */
-.set-blk{background:var(--surf);border:1px solid var(--b1);border-radius:var(--rl);padding:18px}
-.set-row{display:flex;align-items:center;justify-content:space-between;gap:16px}
-.set-lbl{font-family:var(--fd);font-size:16px;font-weight:700;color:var(--ink);display:block;margin-bottom:12px}
-.set-row .set-lbl{margin-bottom:0}
-.set-sub{font-size:12px;color:var(--ink3);margin-top:2px}
-.opt{font-family:var(--fu);font-size:12px;font-weight:400;color:var(--ink3);margin-left:6px}
+/* ── buttons ── */
+.bf{width:100%;padding:14px 16px;background:var(--ink);color:#fff;border:none;border-radius:var(--r);font-family:var(--fd);font-size:16px;font-style:italic;font-weight:400;letter-spacing:.3px;cursor:pointer;transition:opacity .1s,transform .1s}
+.bf:active{transform:scale(.975);opacity:.8}
+.bf:disabled{opacity:.3;pointer-events:none}
+.bg{width:100%;padding:12px 16px;background:transparent;color:var(--ink2);border:1.5px solid var(--b2);border-radius:var(--r);font-family:var(--fu);font-size:14px;font-weight:500;cursor:pointer;transition:background .1s}
+.bg:active{background:var(--b1)}
+.bo{padding:12px 16px;background:var(--bg);color:var(--ink2);border:1.5px solid var(--b2);border-radius:var(--r);font-family:var(--fu);font-size:14px;font-weight:500;cursor:pointer;transition:background .1s}
+.bo:active{background:var(--b1)}
+.bd{width:100%;padding:14px 16px;background:var(--red);color:#fff;border:none;border-radius:var(--r);font-family:var(--fd);font-size:16px;font-style:italic;cursor:pointer;transition:opacity .1s,transform .1s}
+.bd:active{transform:scale(.975);opacity:.8}
+
+/* ═══════════════════════════════════
+   SPLASH
+═══════════════════════════════════ */
+#s-splash{background:var(--ink);align-items:center;justify-content:center;gap:0}
+.sp-inner{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 32px;text-align:center;gap:0}
+.sp-flag{font-size:48px;margin-bottom:20px}
+.sp-title{font-family:var(--fd);font-size:72px;font-style:italic;color:#fff;line-height:.95;letter-spacing:-2px;margin-bottom:12px}
+.sp-sub{font-size:13px;color:rgba(255,255,255,.35);letter-spacing:2px;text-transform:uppercase;margin-bottom:48px}
+.sp-btns{width:100%;max-width:300px;display:flex;flex-direction:column;gap:10px}
+.sp-btns .bf{background:#fff;color:var(--ink);font-size:17px;padding:16px}
+.sp-btns .bg{border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.5)}
+.sp-foot{font-size:11px;color:rgba(255,255,255,.15);padding:16px 0 28px;letter-spacing:1px;text-transform:uppercase}
+
+/* ═══════════════════════════════════
+   RULES
+═══════════════════════════════════ */
+.rule-blk{background:var(--surf);border:1px solid var(--b1);border-radius:var(--rl);padding:20px}
+.rule-n{font-size:11px;font-weight:600;color:var(--ink3);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
+.rule-h{font-family:var(--fd);font-size:21px;font-style:italic;color:var(--ink);margin-bottom:14px}
+.role-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
+.role-row:last-child{margin-bottom:0}
+.pill{padding:3px 10px;border-radius:100px;font-size:11px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;flex-shrink:0;margin-top:2px}
+.pc{background:var(--grnbg);color:var(--grn)}
+.pi{background:var(--redbg);color:var(--red)}
+.pb{background:var(--b1);color:var(--ink3)}
+.role-d{font-size:13px;color:var(--ink2);line-height:1.55}
+.rule-p{font-size:13px;color:var(--ink2);line-height:1.65}
+.rule-steps{display:flex;flex-direction:column;gap:9px;margin-top:2px}
+.rule-step{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--ink2);line-height:1.5}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:7px}
+
+/* ═══════════════════════════════════
+   SETUP
+═══════════════════════════════════ */
+.sblk{background:var(--surf);border:1px solid var(--b1);border-radius:var(--rl);padding:18px}
+.srow{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.slbl{font-family:var(--fd);font-size:17px;font-style:italic;color:var(--ink);display:block;margin-bottom:14px}
+.srow .slbl{margin-bottom:0}
+.ssub{font-size:11px;color:var(--ink3);margin-top:3px}
+.opt{font-family:var(--fu);font-size:11px;font-weight:400;font-style:normal;color:var(--ink3);margin-left:5px}
 /* stepper */
-.stepper{display:flex;align-items:center}
-.step-btn{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--b2);background:var(--bg);color:var(--ink);font-size:20px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s}
-.step-btn:active{background:var(--b2)}
-.step-val{font-family:var(--fd);font-size:36px;font-weight:900;color:var(--ink);min-width:56px;text-align:center}
+.stepper{display:flex;align-items:center;gap:0}
+.stb{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--b2);background:var(--bg);color:var(--ink);font-size:20px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s;flex-shrink:0}
+.stb:active{background:var(--b2)}
+.stv{font-family:var(--fd);font-size:38px;font-style:italic;color:var(--ink);min-width:56px;text-align:center;line-height:1}
 /* toggle */
-.tog{width:48px;height:26px;border-radius:100px;background:var(--b2);border:none;cursor:pointer;position:relative;flex-shrink:0;transition:background .2s}
+.tog{width:46px;height:24px;border-radius:100px;background:var(--b2);border:none;cursor:pointer;position:relative;flex-shrink:0;transition:background .2s}
 .tog.on{background:var(--ink)}
-.tok{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.18)}
+.tok{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 4px rgba(0,0,0,.2)}
 .tog.on .tok{transform:translateX(22px)}
 /* cats */
-.cats{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
-.cat{padding:7px 14px;border-radius:100px;border:1.5px solid var(--b2);background:var(--bg);color:var(--ink2);font-family:var(--fu);font-size:13px;font-weight:500;cursor:pointer;transition:all .12s}
+.cats{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.cat{padding:6px 13px;border-radius:100px;border:1.5px solid var(--b2);background:transparent;color:var(--ink2);font-family:var(--fu);font-size:12px;font-weight:500;cursor:pointer;transition:all .12s}
 .cat.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-/* name inputs */
-.name-row{display:flex;align-items:center;gap:10px;margin-top:10px}
-.name-num{width:28px;height:28px;border-radius:50%;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.name-inp{flex:1;padding:9px 12px;border:1.5px solid var(--b1);border-radius:var(--r);font-family:var(--fu);font-size:14px;background:var(--bg);color:var(--ink);outline:none;transition:border-color .12s}
-.name-inp:focus{border-color:var(--ink2)}
-.err-msg{background:#fff8e6;border:1px solid #f0c040;border-radius:var(--r);padding:10px 14px;font-size:13px;color:#7a5000;font-weight:500}
+/* names */
+.nrow{display:flex;align-items:center;gap:9px;margin-top:10px}
+.nnum{width:26px;height:26px;border-radius:50%;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ninp{flex:1;padding:9px 11px;border:1.5px solid var(--b1);border-radius:8px;font-family:var(--fu);font-size:14px;background:var(--bg);color:var(--ink);outline:none;transition:border-color .12s}
+.ninp:focus{border-color:var(--ink2)}
+.emsg{background:#fffbe8;border:1px solid #e8c840;border-radius:8px;padding:9px 13px;font-size:12px;color:#7a5800;font-weight:500}
 
-/* ── REVEAL ── */
-.rev-bg{background:var(--ink)}
-.rev-top{padding:16px 20px 12px;text-align:center;border-bottom:1px solid rgba(255,255,255,.07)}
-.rev-prog{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.3);display:block;margin-bottom:4px}
-.rev-name{font-family:var(--fd);font-size:26px;font-weight:900;color:#fff}
-.rev-mid{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 20px 8px}
-/* flip card */
-.card3d{width:100%;max-width:320px;aspect-ratio:16/10;cursor:pointer;perspective:1000px}
-.card-inn{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,0,.2,1);border-radius:var(--rl)}
-.card-inn.flip{transform:rotateY(180deg)}
-.cback,.cfront{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:var(--rl);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 20px}
-.cback{background:#242018;border:1px solid rgba(255,255,255,.08);text-align:center}
-.cback-ico{font-size:40px;margin-bottom:10px}
-.cback-lbl{color:rgba(255,255,255,.8);font-size:16px;font-weight:600;margin-bottom:4px}
-.cback-sub{color:rgba(255,255,255,.3);font-size:12px}
-.cfront{background:var(--surf);transform:rotateY(180deg);text-align:center;border:1px solid var(--b1)}
-.crole{display:inline-flex;align-items:center;padding:4px 12px;border-radius:100px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:14px}
-.crole.c{background:var(--grnbg);color:var(--grn)}
-.crole.i{background:var(--redbg);color:var(--red)}
-.crole.b{background:var(--gray);color:var(--ink3)}
-.cword{font-family:var(--fd);font-size:32px;font-weight:900;color:var(--ink);line-height:1.1;word-break:break-word;margin-bottom:6px}
-.csub{font-size:12px;color:var(--ink3);line-height:1.5}
-.ctag{margin-top:10px;padding:5px 14px;border-radius:100px;background:var(--redbg);color:var(--red);font-size:11px;font-weight:700}
-.hint-box{margin-top:12px;width:100%;background:var(--goldbg);border:1px solid #e8c050;border-radius:var(--r);padding:9px 12px;display:flex;gap:8px;text-align:left}
-.hint-ico{font-size:14px;flex-shrink:0;margin-top:1px}
-.hint-txt{font-size:12px;color:var(--gold);font-weight:600;line-height:1.45}
-.tap-cue{color:rgba(255,255,255,.25);font-size:12px;margin-top:16px;letter-spacing:.5px}
-/* impostor panel */
-.imp-notice{margin:4px 16px 8px;background:rgba(184,50,35,.12);border:1px solid rgba(184,50,35,.25);border-radius:var(--r);padding:14px 16px}
-.imp-ntitle{font-size:13px;font-weight:600;color:rgba(255,255,255,.6);margin-bottom:10px}
-.imp-chips{display:flex;flex-wrap:wrap;gap:7px}
-.imp-chip{background:var(--red);color:#fff;padding:5px 12px;border-radius:100px;font-size:13px;font-weight:600}
+/* ═══════════════════════════════════
+   PASS SCREEN  (between players)
+═══════════════════════════════════ */
+#s-pass{background:var(--ink);align-items:center;justify-content:center}
+.pass-inner{display:flex;flex-direction:column;align-items:center;text-align:center;padding:40px 32px;gap:24px}
+.pass-avatar{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:28px;font-style:italic;font-weight:400;flex-shrink:0}
+.pass-label{font-size:13px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1.5px;font-weight:500}
+.pass-name{font-family:var(--fd);font-size:40px;font-style:italic;color:#fff;line-height:1;margin-top:6px}
+.pass-sub{font-size:14px;color:rgba(255,255,255,.35);margin-top:4px}
+.pass-btn{padding:15px 48px;background:#fff;color:var(--ink);border:none;border-radius:var(--r);font-family:var(--fd);font-size:17px;font-style:italic;cursor:pointer;transition:opacity .1s}
+.pass-btn:active{opacity:.8}
 
-/* ── GAME ── */
-.gtop{display:flex;align-items:center;height:56px;padding:0 8px;background:var(--ink);border-bottom:1px solid rgba(255,255,255,.07)}
-.gtop-title{font-family:var(--fd);font-size:17px;font-weight:700;color:#fff;flex:1;text-align:center}
-.gtop .icon-btn{color:rgba(255,255,255,.6)}
-.gtop .icon-btn:active{background:rgba(255,255,255,.1)}
-#word-banner{background:var(--ink);padding:20px 20px 28px;text-align:center}
-.wb-lbl{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.3);margin-bottom:6px}
-.wb-word{font-family:var(--fd);font-size:40px;font-weight:900;color:#fff;letter-spacing:-1px}
-.elim-hint{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--ink3);font-weight:500;padding:14px 16px 8px}
+/* ═══════════════════════════════════
+   CARD SCREEN  (show role)
+═══════════════════════════════════ */
+#s-card{background:var(--ink)}
+.card-tb{display:flex;align-items:center;height:52px;padding:0 6px;border-bottom:1px solid rgba(255,255,255,.07)}
+.card-tb-prog{font-size:11px;color:rgba(255,255,255,.3);letter-spacing:1.5px;text-transform:uppercase;flex:1;text-align:center}
+.card-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 20px 12px}
+
+/* The card itself */
+.crd{width:100%;max-width:310px;aspect-ratio:3/2;border-radius:18px;cursor:pointer;position:relative;user-select:none}
+.crd-face{position:absolute;inset:0;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:22px 18px;text-align:center;transition:opacity .15s}
+
+/* Locked face */
+.crd-lock{background:#1e1912;border:1px solid rgba(255,255,255,.08)}
+.crd-lock-ico{font-size:36px;margin-bottom:10px}
+.crd-lock-lbl{color:rgba(255,255,255,.75);font-size:15px;font-weight:600;margin-bottom:4px}
+.crd-lock-sub{color:rgba(255,255,255,.28);font-size:12px}
+
+/* Role face — hidden until tap */
+.crd-role{background:var(--surf);border:1px solid var(--b1);opacity:0;pointer-events:none}
+.crd-role.shown{opacity:1;pointer-events:auto}
+.crd-lock.hidden{opacity:0;pointer-events:none}
+
+.crole-tag{display:inline-flex;align-items:center;padding:4px 11px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;margin-bottom:12px}
+.crole-tag.c{background:var(--grnbg);color:var(--grn)}
+.crole-tag.i{background:var(--redbg);color:var(--red)}
+.crole-tag.b{background:var(--b1);color:var(--ink3)}
+.cword{font-family:var(--fd);font-size:30px;font-style:italic;color:var(--ink);line-height:1.1;word-break:break-word;margin-bottom:5px}
+.csub{font-size:11px;color:var(--ink3);line-height:1.5}
+.ctag{margin-top:9px;padding:4px 13px;border-radius:100px;background:var(--redbg);color:var(--red);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.hintbox{margin-top:10px;width:100%;background:var(--goldbg);border:1px solid #d4a820;border-radius:8px;padding:8px 11px;display:flex;gap:7px;text-align:left}
+.hico{font-size:13px;flex-shrink:0;margin-top:1px}
+.htxt{font-size:11px;color:var(--gold);font-weight:600;line-height:1.45}
+
+.tap-hint{color:rgba(255,255,255,.22);font-size:12px;margin-top:16px;letter-spacing:.3px}
+
+/* impostor band */
+.imp-band{margin:0 16px 8px;background:rgba(181,43,30,.14);border:1px solid rgba(181,43,30,.25);border-radius:10px;padding:13px 15px}
+.imp-band-t{font-size:12px;font-weight:600;color:rgba(255,255,255,.55);margin-bottom:8px}
+.imp-chips{display:flex;flex-wrap:wrap;gap:6px}
+.imp-chip{background:var(--red);color:#fff;padding:4px 11px;border-radius:100px;font-size:12px;font-weight:600}
+
+/* ═══════════════════════════════════
+   GAME
+═══════════════════════════════════ */
+#s-game{background:var(--bg)}
+.gtb{display:flex;align-items:center;height:52px;padding:0 6px;background:var(--ink);border-bottom:1px solid rgba(255,255,255,.06)}
+.gtb-title{font-family:var(--fd);font-size:17px;font-style:italic;color:#fff;flex:1;text-align:center}
+.gtb .ib{color:rgba(255,255,255,.55)}
+.gtb .ib:active{background:rgba(255,255,255,.08)}
+#wbanner{background:var(--ink);padding:20px 20px 26px;text-align:center}
+.wb-l{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.28);margin-bottom:5px}
+.wb-w{font-family:var(--fd);font-size:42px;font-style:italic;color:#fff;letter-spacing:-1px;line-height:1}
+.elim-l{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--ink3);font-weight:600;padding:14px 16px 6px}
 .pgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 16px 16px}
-.pcrd{background:var(--surf);border:1px solid var(--b1);border-radius:var(--r);padding:16px 10px;text-align:center;cursor:pointer;position:relative;transition:all .12s;user-select:none}
-.pcrd:active{transform:scale(.96)}
-.pcrd.out{opacity:.28;border-style:dashed}
-.pav{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:17px;font-weight:900;margin:0 auto 8px}
-.pnm{font-size:13px;font-weight:600;color:var(--ink)}
-.out-bdg{position:absolute;top:-6px;right:-6px;width:20px;height:20px;background:var(--red);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.pcrd{background:var(--surf);border:1px solid var(--b1);border-radius:var(--r);padding:16px 10px;text-align:center;cursor:pointer;position:relative;transition:all .12s;user-select:none;-webkit-user-select:none}
+.pcrd:active{transform:scale(.95)}
+.pcrd.out{opacity:.25;border-style:dashed}
+.pav{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:17px;font-style:italic;margin:0 auto 7px}
+.pnm{font-size:13px;font-weight:500;color:var(--ink);line-height:1.2}
+.obdg{position:absolute;top:-6px;right:-6px;width:19px;height:19px;background:var(--red);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center}
 
-/* ── RESULTS ── */
-.res-hero{padding:32px 20px 20px;text-align:center;border-bottom:1px solid var(--b1)}
-.res-emoji{font-size:60px;display:block;margin-bottom:10px}
-.res-title{font-family:var(--fd);font-size:28px;font-weight:900;color:var(--ink);margin-bottom:4px}
-.res-sub{font-size:14px;color:var(--ink2)}
-.words-rev{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:16px 16px 0}
-.wr{border-radius:var(--r);padding:14px 12px;text-align:center}
-.wr.ck{background:var(--grnbg)}
-.wr.ik{background:var(--goldbg)}
-.wr-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
-.wr.ck .wr-lbl{color:var(--grn)}
-.wr.ik .wr-lbl{color:var(--gold)}
-.wr-word{font-family:var(--fd);font-size:18px;font-weight:900}
-.wr.ck .wr-word{color:var(--grn)}
-.wr.ik .wr-word{color:var(--gold);font-size:12px;font-weight:500;line-height:1.4}
-.res-rows{padding:12px 16px 4px;display:flex;flex-direction:column;gap:8px}
-.res-row{display:flex;align-items:center;gap:12px;background:var(--surf);border:1px solid var(--b1);border-radius:var(--r);padding:12px 14px}
-.res-av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:16px;font-weight:900;flex-shrink:0}
-.res-info{flex:1;min-width:0}
-.res-nm{font-size:14px;font-weight:600}
-.res-elim{color:var(--red);font-size:11px;font-weight:600;margin-left:4px}
-.res-rl{font-size:12px;color:var(--ink3);margin-top:2px}
-.res-ico{font-size:20px;flex-shrink:0}
+/* ═══════════════════════════════════
+   RESULTS
+═══════════════════════════════════ */
+.res-hero{padding:36px 20px 20px;text-align:center;border-bottom:1px solid var(--b1);background:var(--surf)}
+.res-emo{font-size:56px;display:block;margin-bottom:10px}
+.res-title{font-family:var(--fd);font-size:30px;font-style:italic;color:var(--ink);margin-bottom:4px}
+.res-sub{font-size:13px;color:var(--ink2)}
+.wrev{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:14px 16px 0}
+.wc{border-radius:var(--r);padding:13px 11px;text-align:center}
+.wc.ck{background:var(--grnbg)}
+.wc.ik{background:var(--goldbg)}
+.wc-l{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
+.wc.ck .wc-l{color:var(--grn)}
+.wc.ik .wc-l{color:var(--gold)}
+.wc-w{font-family:var(--fd);font-size:18px;font-style:italic}
+.wc.ck .wc-w{color:var(--grn)}
+.wc.ik .wc-w{color:var(--gold);font-family:var(--fu);font-size:11px;font-style:normal;font-weight:500;line-height:1.4;margin-top:2px}
+.rrows{padding:10px 16px 4px;display:flex;flex-direction:column;gap:7px}
+.rrow{display:flex;align-items:center;gap:11px;background:var(--surf);border:1px solid var(--b1);border-radius:var(--r);padding:12px 13px}
+.rav{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:15px;font-style:italic;flex-shrink:0}
+.rnm{font-size:14px;font-weight:500}
+.relim{color:var(--red);font-size:11px;font-weight:600;margin-left:4px}
+.rrl{font-size:11px;color:var(--ink3);margin-top:2px}
+.rico{font-size:18px;flex-shrink:0}
 .sp{height:16px}
 </style>
 </head>
 <body>
 
-<!-- SPLASH -->
+<!-- ── SPLASH ── -->
 <div id="s-splash" class="screen active">
-  <div class="spl-wrap">
-    <div class="spl-flag">🇩🇿</div>
-    <h1 class="spl-title">Metnaker</h1>
-    <p class="spl-ar">المتنكر</p>
-    <p class="spl-tag">شكون هو المتنكر فيكم ؟</p>
+  <div class="sp-inner">
+    <div class="sp-flag">🇩🇿</div>
+    <h1 class="sp-title">Imposteur</h1>
+    <p class="sp-sub">100% Dziri</p>
+    <div class="sp-btns">
+      <button class="bf" onclick="goTo('s-setup')">Play</button>
+      <button class="bg" onclick="goTo('s-rules')">How to play</button>
+    </div>
   </div>
-  <div class="spl-btns">
-    <button class="btn-fill" onclick="goTo('s-setup')">العب — Jouer</button>
-    <button class="btn-ghost" onclick="goTo('s-rules')">Comment jouer ?</button>
-  </div>
-  <p class="spl-credit">100% Dziri 🇩🇿</p>
+  <p class="sp-foot">Made for Algerians 🇩🇿</p>
 </div>
 
-<!-- RULES -->
+<!-- ── RULES ── -->
 <div id="s-rules" class="screen">
-  <div class="topbar">
-    <button class="icon-btn" onclick="goTo('s-splash')">←</button>
-    <span class="topbar-title">Comment jouer</span>
+  <div class="tb">
+    <button class="ib" onclick="goTo('s-splash')">←</button>
+    <span class="tb-title">How to play</span>
     <span style="width:36px"></span>
   </div>
-  <div class="scroll-area">
-    <div class="rule-sec">
-      <div class="rule-n">01</div>
-      <h3 class="rule-h">Les rôles</h3>
-      <div class="role-item"><span class="pill pill-c">Citoyen</span><span class="role-desc">Voit le mot secret — décris-le sans le trahir</span></div>
-      <div class="role-item"><span class="pill pill-i">Imposteur</span><span class="role-desc">Pas de mot — juste un indice flou. Bluff et survie.</span></div>
-      <div class="role-item"><span class="pill pill-b">Blanc</span><span class="role-desc">Rien du tout — devine en écoutant les autres</span></div>
+  <div class="body">
+    <div class="rule-blk">
+      <div class="rule-n">01 — Roles</div>
+      <h3 class="rule-h">Three roles, one truth</h3>
+      <div class="role-row"><span class="pill pc">Citizen</span><span class="role-d">Sees the secret word — describe it without giving it away</span></div>
+      <div class="role-row"><span class="pill pi">Impostor</span><span class="role-d">No word — just a vague hint. Bluff and survive.</span></div>
+      <div class="role-row"><span class="pill pb">Blank</span><span class="role-d">Nothing at all — listen, guess, don't get caught</span></div>
     </div>
-    <div class="rule-sec">
-      <div class="rule-n">02</div>
-      <h3 class="rule-h">Le tour</h3>
+    <div class="rule-blk">
+      <div class="rule-n">02 — Each Round</div>
+      <h3 class="rule-h">Talk, vote, eliminate</h3>
       <div class="rule-steps">
-        <div class="rule-step"><span class="step-dot"></span>Passe le téléphone — chaque joueur voit sa carte en secret</div>
-        <div class="rule-step"><span class="step-dot"></span>Chacun dit <strong>un seul mot</strong> pour décrire son mot</div>
-        <div class="rule-step"><span class="step-dot"></span>Discussion — qui est suspect ?</div>
-        <div class="rule-step"><span class="step-dot"></span>Vote — le plus voté est éliminé</div>
-        <div class="rule-step"><span class="step-dot"></span>Si le dernier imposteur devine le vrai mot — il gagne quand même</div>
+        <div class="rule-step"><span class="dot"></span>Pass the phone — each player peeks their card privately</div>
+        <div class="rule-step"><span class="dot"></span>Going around, each player says <strong>one word</strong> to describe their word</div>
+        <div class="rule-step"><span class="dot"></span>Discuss — who seems sus?</div>
+        <div class="rule-step"><span class="dot"></span>Vote — most votes gets eliminated</div>
+        <div class="rule-step"><span class="dot"></span>Last impostor: if they guess the citizen word — they still win</div>
       </div>
     </div>
-    <div class="rule-sec">
-      <div class="rule-n">03</div>
-      <h3 class="rule-h">L'indice 💡</h3>
-      <p class="rule-p">L'imposteur n'a <strong>aucun mot</strong>. Si les indices sont activés, il reçoit une courte phrase floue pour l'aider à bluffer. Les citoyens ne voient jamais d'indices.</p>
+    <div class="rule-blk">
+      <div class="rule-n">03 — Hints</div>
+      <h3 class="rule-h">The hint system</h3>
+      <p class="rule-p">The impostor has <strong>no word</strong>. With hints ON, they see one vague clue to help them bluff. With hints OFF — total darkness. Citizens never see hints.</p>
     </div>
   </div>
-  <div class="bot"><button class="btn-fill" onclick="goTo('s-setup')">C'est parti</button></div>
+  <div class="bar"><button class="bf" onclick="goTo('s-setup')">Got it</button></div>
 </div>
 
-<!-- SETUP -->
+<!-- ── SETUP ── -->
 <div id="s-setup" class="screen">
-  <div class="topbar">
-    <button class="icon-btn" onclick="goTo('s-splash')">←</button>
-    <span class="topbar-title">Paramètres</span>
+  <div class="tb">
+    <button class="ib" onclick="goTo('s-splash')">←</button>
+    <span class="tb-title">Setup</span>
     <span style="width:36px"></span>
   </div>
-  <div class="scroll-area">
-    <div class="set-blk">
-      <div class="set-row">
-        <span class="set-lbl">Joueurs</span>
+  <div class="body">
+    <div class="sblk">
+      <div class="srow">
+        <span class="slbl">Players</span>
         <div class="stepper">
-          <button class="step-btn" onclick="step('players',-1)">−</button>
-          <span class="step-val" id="players-val">5</span>
-          <button class="step-btn" onclick="step('players',1)">+</button>
+          <button class="stb" onclick="step('players',-1)">−</button>
+          <span class="stv" id="players-val">5</span>
+          <button class="stb" onclick="step('players',1)">+</button>
         </div>
       </div>
     </div>
-    <div class="set-blk">
-      <div class="set-row">
-        <span class="set-lbl">Imposteurs</span>
+    <div class="sblk">
+      <div class="srow">
+        <span class="slbl">Impostors</span>
         <div class="stepper">
-          <button class="step-btn" onclick="step('imposters',-1)">−</button>
-          <span class="step-val" id="imposters-val">1</span>
-          <button class="step-btn" onclick="step('imposters',1)">+</button>
+          <button class="stb" onclick="step('imposters',-1)">−</button>
+          <span class="stv" id="imposters-val">1</span>
+          <button class="stb" onclick="step('imposters',1)">+</button>
         </div>
       </div>
     </div>
-    <div class="set-blk">
-      <div class="set-row">
-        <span class="set-lbl">Carte blanche</span>
+    <div class="sblk">
+      <div class="srow">
+        <span class="slbl">Blank card</span>
         <div class="stepper">
-          <button class="step-btn" onclick="step('blanks',-1)">−</button>
-          <span class="step-val" id="blanks-val">0</span>
-          <button class="step-btn" onclick="step('blanks',1)">+</button>
+          <button class="stb" onclick="step('blanks',-1)">−</button>
+          <span class="stv" id="blanks-val">0</span>
+          <button class="stb" onclick="step('blanks',1)">+</button>
         </div>
       </div>
     </div>
-    <div class="set-blk">
-      <div class="set-row">
+    <div class="sblk">
+      <div class="srow">
         <div>
-          <span class="set-lbl">Indices imposteur</span>
-          <p class="set-sub" id="hint-sub">Activé — indice flou visible</p>
+          <span class="slbl">Impostor hint</span>
+          <p class="ssub" id="hint-sub">On — impostor sees a vague clue</p>
         </div>
-        <button class="tog on" id="hint-tog" onclick="toggleHints()"><span class="tok"></span></button>
+        <button class="tog on" id="htog" onclick="toggleHints()"><span class="tok"></span></button>
       </div>
     </div>
-    <div class="set-blk">
-      <span class="set-lbl">Catégories</span>
+    <div class="sblk">
+      <span class="slbl">Categories</span>
       <div class="cats" id="cats"></div>
     </div>
-    <div class="set-blk">
-      <span class="set-lbl">Noms <span class="opt">optionnel</span></span>
-      <div id="names-list"></div>
+    <div class="sblk">
+      <span class="slbl">Player names <span class="opt">optional</span></span>
+      <div id="nlist"></div>
     </div>
-    <div id="err-msg" class="err-msg" style="display:none">Trop d'imposteurs + blancs pour ce nombre de joueurs</div>
+    <div id="emsg" class="emsg" style="display:none">Too many impostors + blanks for this player count</div>
   </div>
-  <div class="bot"><button class="btn-fill" id="deal-btn" onclick="startGame()">Distribuer les cartes</button></div>
+  <div class="bar"><button class="bf" id="deal-btn" onclick="startGame()">Deal cards</button></div>
 </div>
 
-<!-- REVEAL -->
-<div id="s-reveal" class="screen rev-bg">
-  <div class="rev-top">
-    <span class="rev-prog" id="rev-prog">1 / 5</span>
-    <span class="rev-name" id="rev-name">—</span>
-  </div>
-  <div class="rev-mid">
-    <div class="card3d" onclick="flipCard()">
-      <div class="card-inn" id="card-inn">
-        <div class="cback">
-          <div class="cback-ico">🔒</div>
-          <p class="cback-lbl">Appuie pour voir ton rôle</p>
-          <p class="cback-sub">Assure-toi que personne ne regarde</p>
-        </div>
-        <div class="cfront" id="cfront"></div>
-      </div>
+<!-- ── PASS SCREEN — shown between players ── -->
+<div id="s-pass" class="screen">
+  <div class="pass-inner">
+    <div class="pass-avatar" id="pass-av"></div>
+    <div>
+      <p class="pass-label">Pass the phone to</p>
+      <p class="pass-name" id="pass-name">—</p>
+      <p class="pass-sub">Don't let anyone else see</p>
     </div>
-    <p class="tap-cue" id="tap-cue">Appuie sur la carte</p>
+    <button class="pass-btn" onclick="showCard()">I'm ready 👁</button>
   </div>
-  <div id="imp-panel" style="display:none">
-    <div class="imp-notice">
-      <p class="imp-ntitle">🕵️ Les imposteurs se connaissent</p>
+</div>
+
+<!-- ── CARD SCREEN — private role reveal ── -->
+<div id="s-card" class="screen">
+  <div class="card-tb">
+    <span class="card-tb-prog" id="card-prog">1 / 5</span>
+  </div>
+  <div class="card-area">
+    <div class="crd" onclick="tapCard()">
+      <div class="crd-face crd-lock" id="crd-lock">
+        <div class="crd-lock-ico">🔒</div>
+        <p class="crd-lock-lbl">Tap to reveal</p>
+        <p class="crd-lock-sub">Make sure nobody else is watching</p>
+      </div>
+      <div class="crd-face crd-role" id="crd-role"></div>
+    </div>
+    <p class="tap-hint" id="tap-hint">Tap the card to see your role</p>
+  </div>
+  <div id="imp-band" style="display:none">
+    <div class="imp-band">
+      <p class="imp-band-t">🕵️ The impostors know each other</p>
       <div class="imp-chips" id="imp-chips"></div>
     </div>
   </div>
-  <div class="bot rev">
-    <button class="btn-fill" id="btn-next" onclick="nextReveal()" style="display:none">Joueur suivant</button>
-    <button class="btn-fill" id="btn-go" onclick="goTo('s-game')" style="display:none">Yallah ! 🎮</button>
+  <div class="bar tr">
+    <button class="bf" id="btn-next" onclick="nextPlayer()" style="display:none">Next player →</button>
+    <button class="bf" id="btn-go" onclick="goTo('s-game')" style="display:none">Let's go 🎮</button>
   </div>
 </div>
 
-<!-- GAME -->
+<!-- ── GAME ── -->
 <div id="s-game" class="screen">
-  <div class="gtop">
-    <button class="icon-btn" onclick="confirmQuit()">✕</button>
-    <span class="gtop-title">Metnaker</span>
-    <button class="icon-btn" onclick="goTo('s-results')">🔍</button>
+  <div class="gtb">
+    <button class="ib" onclick="confirmQuit()">✕</button>
+    <span class="gtb-title">Imposteur</span>
+    <button class="ib" onclick="goTo('s-results')">🔍</button>
   </div>
-  <div id="word-banner"></div>
-  <p class="elim-hint">Appuie pour marquer éliminé</p>
+  <div id="wbanner"></div>
+  <p class="elim-l">Tap to mark eliminated</p>
   <div class="pgrid" id="pgrid"></div>
-  <div class="bot"><button class="btn-danger" onclick="goTo('s-results')">Révéler les rôles 🎭</button></div>
+  <div class="bar"><button class="bd" onclick="goTo('s-results')">Reveal roles 🎭</button></div>
 </div>
 
-<!-- RESULTS -->
+<!-- ── RESULTS ── -->
 <div id="s-results" class="screen">
-  <div class="topbar">
-    <button class="icon-btn" onclick="goTo('s-game')">←</button>
-    <span class="topbar-title">Résultats</span>
+  <div class="tb">
+    <button class="ib" onclick="goTo('s-game')">←</button>
+    <span class="tb-title">Results</span>
     <span style="width:36px"></span>
   </div>
   <div id="res-inner"></div>
-  <div class="bot two">
-    <button class="btn-out" onclick="goTo('s-setup')">Nouvelle partie</button>
-    <button class="btn-fill" onclick="rematch()">Revanche 🔄</button>
+  <div class="bar row">
+    <button class="bo" onclick="goTo('s-setup')">New game</button>
+    <button class="bf" onclick="rematch()">Rematch 🔄</button>
   </div>
 </div>
 
 <script>
-// ══════════════════════════════════════
-//  WORD PAIRS — 100% ALGERIAN
-// ══════════════════════════════════════
-const CATS = {
-  makla:"🍲 Makla", blayet:"📍 Blayet", darja:"🗣️ Darja",
-  "3adat":"🎭 3adat", machahir:"⭐ Machahir", derb:"🛵 Derb",
-  drassa:"📚 Mdrassa", "3a2ila":"👪 3a2ila", custom:"✏️ Ntou3kom"
+// ═══════════════════════════════════════════
+//  CATEGORIES
+// ═══════════════════════════════════════════
+var CATS={
+  makla:"🍲 Makla",blayet:"📍 Blayet",darja:"🗣️ Darja",
+  "3adat":"🎭 3adat","machahir":"⭐ Machahir",derb:"🛵 Derb",
+  drassa:"📚 Mdrassa","3a2ila":"👪 3a2ila",custom:"✏️ Custom"
 };
 
-const PAIRS = [
-  {c:"kesra",h:"pain fait maison, servi chaud avec tout",cat:"makla"},
-  {c:"chakhchoukha",h:"plat en pâte émiettée, classique des fêtes",cat:"makla"},
-  {c:"mhajeb",h:"galette feuilletée pliée, petit-déj algérien",cat:"makla"},
-  {c:"karantika",h:"plat de rue chaud à base de pois chiches, Oran",cat:"makla"},
-  {c:"chorba frik",h:"soupe du Ramadan, yemma la fait chaque soir",cat:"makla"},
-  {c:"tbikha",h:"ragoût de légumes cuit lentement, le vendredi",cat:"makla"},
-  {c:"rechta",h:"pâtes plates algéroises, plat d'hiver",cat:"makla"},
-  {c:"bourak",h:"pâte frite farcie, incontournable du Ramadan",cat:"makla"},
-  {c:"kalb elouz",h:"gâteau en losange aux amandes, pour les mariages",cat:"makla"},
-  {c:"tamina",h:"douceur à la semoule grillée, après l'accouchement",cat:"makla"},
-  {c:"makroud",h:"gâteau à la semoule et dattes, spécialité de l'est",cat:"makla"},
-  {c:"merguez",h:"viande rouge épicée, grillée au barbecue",cat:"makla"},
-  {c:"cay",h:"boisson chaude en petit verre, chez la voisine",cat:"makla"},
-  {c:"lham lahlou",h:"plat sucré-salé, cérémonie du mariage",cat:"makla"},
-  {c:"3asida",h:"bouillie de grain épaisse, petit-déj traditionnel",cat:"makla"},
-  {c:"mchi",h:"légumes farcis à la viande, plat du dimanche",cat:"makla"},
-  {c:"matloua",h:"pain rond cuit à la poêle ou au four",cat:"makla"},
-  {c:"casbah",h:"vieux quartier historique, ruelles étroites",cat:"blayet"},
-  {c:"7ammam",h:"là où on va se laver, tradition algérienne",cat:"blayet"},
-  {c:"7anut",h:"petite épicerie du coin, il connaît tout le monde",cat:"blayet"},
-  {c:"3mariya",h:"marché en plein air, bruyant et animé",cat:"blayet"},
-  {c:"qahwa",h:"café où les hommes se retrouvent le matin",cat:"blayet"},
-  {c:"stade",h:"là où se joue le football",cat:"blayet"},
-  {c:"tram",h:"transport en commun dans la ville",cat:"blayet"},
-  {c:"cité",h:"quartier résidentiel, tout le monde se connaît",cat:"blayet"},
-  {c:"plage",h:"destination de l'été, soleil et mer",cat:"blayet"},
-  {c:"wilaya",h:"bureau gouvernemental qu'on déteste visiter",cat:"blayet"},
-  {c:"zawiya",h:"lieu de rassemblement religieux et communautaire",cat:"blayet"},
-  {c:"douar",h:"village rural, là d'où vient la famille",cat:"blayet"},
-  {c:"labas",h:"réponse quand on te demande comment tu vas",cat:"darja"},
-  {c:"sa7bi",h:"comment t'appelles ton meilleur ami",cat:"darja"},
-  {c:"7chouma",h:"quand quelqu'un fait quelque chose de honteux",cat:"darja"},
-  {c:"zwina",h:"compliment sur l'apparence de quelqu'un",cat:"darja"},
-  {c:"wili",h:"exclamation de surprise ou de choc",cat:"darja"},
-  {c:"tmara",h:"être épuisé et en avoir marre",cat:"darja"},
-  {c:"ga3",h:"signifie tout ou tous, sans exception",cat:"darja"},
-  {c:"gach",h:"la police, les flics",cat:"darja"},
-  {c:"jaw",h:"l'ambiance ou l'atmosphère d'un endroit",cat:"darja"},
-  {c:"za7ri",h:"quand la chance est avec toi",cat:"darja"},
-  {c:"mra7",h:"se sentir content et à l'aise",cat:"darja"},
-  {c:"dima",h:"toujours, sans exception, tout le temps",cat:"darja"},
-  {c:"khorti",h:"traiter quelqu'un de fou ou d'absurde",cat:"darja"},
-  {c:"wech rak",h:"demander comment va quelqu'un",cat:"darja"},
-  {c:"3lach",h:"demander pourquoi",cat:"darja"},
-  {c:"yezzi",h:"dire à quelqu'un d'arrêter, c'est assez",cat:"darja"},
-  {c:"bzaf",h:"beaucoup, en grande quantité",cat:"darja"},
-  {c:"rahi",h:"elle est / je suis — pronom de présence",cat:"darja"},
-  {c:"zerda",h:"grand repas communautaire, tout le douar est invité",cat:"3adat"},
-  {c:"3arss",h:"mariage algérien, minimum 3 jours de fête",cat:"3adat"},
-  {c:"raï",h:"genre musical le plus iconique d'Algérie",cat:"3adat"},
-  {c:"gasba",h:"instrument à vent traditionnel du sud algérien",cat:"3adat"},
-  {c:"burnous",h:"tenue traditionnelle longue portée par les hommes",cat:"3adat"},
-  {c:"7ayek",h:"tissu blanc traditionnel porté par les femmes",cat:"3adat"},
-  {c:"7enna",h:"la nuit avant le mariage, traditions et peintures",cat:"3adat"},
-  {c:"derbouqa",h:"instrument de percussion traditionnel algérien",cat:"3adat"},
-  {c:"chaoui",h:"peuple amazigh algérien de l'est et sa culture",cat:"3adat"},
-  {c:"mouloud",h:"fête islamique, sucreries et enfants",cat:"3adat"},
-  {c:"sebiba",h:"festival traditionnel du sud algérien, Djanet",cat:"3adat"},
-  {c:"tifinagh",h:"système d'écriture, identité amazighe",cat:"3adat"},
-  {c:"chechia",h:"coiffe traditionnelle algérienne pour hommes",cat:"3adat"},
-  {c:"Khaled",h:"le roi du raï, originaire d'Oran",cat:"machahir"},
-  {c:"Cheb Mami",h:"le prince du raï, voix puissante d'Oran",cat:"machahir"},
-  {c:"Cheikha Rimitti",h:"la mère fondatrice du raï algérien",cat:"machahir"},
-  {c:"Warda Charlamante",h:"voix féminine iconique du raï oranais",cat:"machahir"},
-  {c:"Cheba Fadela",h:"star féminine du raï des années 80-90",cat:"machahir"},
-  {c:"Warda el Jazairia",h:"la Rose Algérienne, géante de la chanson arabe",cat:"machahir"},
-  {c:"Rachid Taha",h:"musicien algérien qui a percé à l'international",cat:"machahir"},
-  {c:"Idir",h:"légende kabyle, A Vava Inouva",cat:"machahir"},
-  {c:"Lounès Matoub",h:"chanteur kabyle rebelle, martyr culturel",cat:"machahir"},
-  {c:"Amar Ezzahi",h:"maître du chaâbi classique algérois",cat:"machahir"},
-  {c:"Cheb Akil",h:"voix populaire du raï algérien des années 90",cat:"machahir"},
-  {c:"Soolking",h:"rappeur algérien, plus d'un milliard de vues",cat:"machahir"},
-  {c:"Lotfi DK",h:"rap algérien de rue, plume acérée",cat:"machahir"},
-  {c:"DJ Snake",h:"artiste d'origine algérienne, succès mondial",cat:"machahir"},
-  {c:"Didine Canon 16",h:"fusion raï-rap, des millions de fans en Algérie",cat:"machahir"},
-  {c:"Anes Tina",h:"comédien algérien avec des millions d'abonnés",cat:"machahir"},
-  {c:"Just Riadh",h:"créateur franco-algérien très populaire",cat:"machahir"},
-  {c:"Raouf Khelif",h:"star de la comédie YouTube algérienne",cat:"machahir"},
-  {c:"Smain",h:"comédien algérien classique du stand-up",cat:"machahir"},
-  {c:"Biyouna",h:"actrice et chanteuse algérienne adorée",cat:"machahir"},
-  {c:"Mahrez",h:"ailier algérien, niveau Premier League",cat:"machahir"},
-  {c:"Bennacer",h:"milieu clé des Fennecs, joue en Europe",cat:"machahir"},
-  {c:"Slimani",h:"attaquant algérien ayant joué dans les grands clubs",cat:"machahir"},
-  {c:"Feghouli",h:"milieu algérien, longue carrière européenne",cat:"machahir"},
-  {c:"Rabah Madjer",h:"le plus grand footballeur algérien de tous les temps",cat:"machahir"},
-  {c:"Lakhdar Belloumi",h:"légende du football algérien, époque d'or",cat:"machahir"},
-  {c:"Sofia Boutella",h:"actrice algérienne dans des films internationaux",cat:"machahir"},
-  {c:"Leïla Bekhti",h:"actrice franco-algérienne acclamée",cat:"machahir"},
-  {c:"Hassiba Boulmerka",h:"championne olympique algérienne en athlétisme",cat:"machahir"},
-  {c:"Noureddine Morceli",h:"recordman du monde sur demi-fond, fierté algérienne",cat:"machahir"},
-  {c:"squali",h:"décrire quelqu'un selon sa classe sociale",cat:"derb"},
-  {c:"7arraga",h:"quelqu'un qui quitte l'Algérie pour une vie meilleure",cat:"derb"},
-  {c:"système D",h:"trouver un moyen de contourner, à l'algérienne",cat:"derb"},
-  {c:"frima",h:"quelqu'un qui aime se montrer et se vanter",cat:"derb"},
-  {c:"flous",h:"parler d'argent",cat:"derb"},
-  {c:"baroud",h:"bagarre ou confrontation tendue",cat:"derb"},
-  {c:"sa7eb el 7anut",h:"le gars de l'épicerie qui connaît tout le quartier",cat:"derb"},
-  {c:"samsara",h:"l'intermédiaire qui arrange les affaires",cat:"derb"},
-  {c:"3ich",h:"vivre le moment, profiter de la vie",cat:"derb"},
-  {c:"bzaza",h:"celui qui triche pendant l'examen",cat:"drassa"},
-  {c:"concours",h:"test national qui décide de ton avenir",cat:"drassa"},
-  {c:"BAC",h:"examen de fin de lycée en Algérie",cat:"drassa"},
-  {c:"intendant",h:"l'adulte important qui gère l'école",cat:"drassa"},
-  {c:"fiche",h:"punition écrite donnée à l'école",cat:"drassa"},
-  {c:"tableau",h:"ce sur quoi le prof écrit en classe",cat:"drassa"},
-  {c:"chef de classe",h:"le représentant élu de la classe",cat:"drassa"},
-  {c:"yemma",h:"la personne la plus importante de la maison",cat:"3a2ila"},
-  {c:"baba",h:"le père, chef de famille",cat:"3a2ila"},
-  {c:"3ammi",h:"le frère de ton père ou de ta mère",cat:"3a2ila"},
-  {c:"jeddi",h:"l'aîné masculin de la famille",cat:"3a2ila"},
-  {c:"jedda",h:"la grand-mère ou la vieille tante adorée",cat:"3a2ila"},
-  {c:"3ressa",h:"la femme de la maison",cat:"3a2ila"},
-  {c:"drari",h:"les petits enfants qui courent partout",cat:"3a2ila"},
-  {c:"jira",h:"la voisine qui sait tout ce qui se passe",cat:"3a2ila"},
-  // ADD YOUR CUSTOM WORDS HERE:
-  // {c:"YOUR WORD", h:"indice flou pour l'imposteur", cat:"custom"},
+// ═══════════════════════════════════════════
+//  WORD PAIRS — 100% ALGERIAN
+//  c = citizen word   h = impostor hint
+// ═══════════════════════════════════════════
+var PAIRS=[
+  // MAKLA
+  {c:"kesra",h:"bread made at home, served hot with everything",cat:"makla"},
+  {c:"chakhchoukha",h:"crumbled pasta dish, classic at weddings",cat:"makla"},
+  {c:"mhajeb",h:"folded layered flatbread, Algerian breakfast",cat:"makla"},
+  {c:"karantika",h:"hot chickpea street food, pride of Oran",cat:"makla"},
+  {c:"chorba frik",h:"Ramadan soup, yemma makes it every night",cat:"makla"},
+  {c:"tbikha",h:"slow-cooked vegetable stew, Friday lunch",cat:"makla"},
+  {c:"rechta",h:"flat noodle dish from Algiers, winter comfort",cat:"makla"},
+  {c:"bourak",h:"fried pastry stuffed with egg or tuna, Ramadan",cat:"makla"},
+  {c:"kalb elouz",h:"diamond-shaped almond cake, made for weddings",cat:"makla"},
+  {c:"tamina",h:"toasted semolina sweet, given after childbirth",cat:"makla"},
+  {c:"makroud",h:"semolina and date pastry, eastern Algeria specialty",cat:"makla"},
+  {c:"merguez",h:"spiced red meat, grilled at every barbecue",cat:"makla"},
+  {c:"cay",h:"hot drink in a small glass, served at every visit",cat:"makla"},
+  {c:"lham lahlou",h:"sweet and savoury meat dish, wedding ceremony",cat:"makla"},
+  {c:"3asida",h:"thick grain porridge, traditional cold morning meal",cat:"makla"},
+  {c:"mchi",h:"stuffed vegetables with meat, Sunday dish",cat:"makla"},
+  {c:"matloua",h:"round bread cooked in a pan or oven",cat:"makla"},
+  // BLAYET
+  {c:"casbah",h:"historic old quarter, narrow winding streets",cat:"blayet"},
+  {c:"7ammam",h:"where Algerians go to wash, traditional ritual",cat:"blayet"},
+  {c:"7anut",h:"corner shop, owner knows the whole neighbourhood",cat:"blayet"},
+  {c:"3mariya",h:"outdoor market, loud and chaotic",cat:"blayet"},
+  {c:"qahwa",h:"café where men gather every morning",cat:"blayet"},
+  {c:"stade",h:"where football happens",cat:"blayet"},
+  {c:"tram",h:"city public transport",cat:"blayet"},
+  {c:"cité",h:"residential estate, everyone knows each other",cat:"blayet"},
+  {c:"plage",h:"summer destination, sun and sea",cat:"blayet"},
+  {c:"wilaya",h:"government office nobody enjoys visiting",cat:"blayet"},
+  {c:"zawiya",h:"religious and community gathering place",cat:"blayet"},
+  {c:"douar",h:"rural village, where the family roots are",cat:"blayet"},
+  // DARJA
+  {c:"labas",h:"how you reply when asked how you are",cat:"darja"},
+  {c:"sa7bi",h:"what you call your closest friend",cat:"darja"},
+  {c:"7chouma",h:"when someone does something embarrassing",cat:"darja"},
+  {c:"zwina",h:"complimenting someone's appearance",cat:"darja"},
+  {c:"wili",h:"exclamation of shock or disbelief",cat:"darja"},
+  {c:"tmara",h:"feeling exhausted and done with it all",cat:"darja"},
+  {c:"ga3",h:"means all or everything, no exception",cat:"darja"},
+  {c:"gach",h:"the police, feds",cat:"darja"},
+  {c:"jaw",h:"the vibe or atmosphere of a moment or place",cat:"darja"},
+  {c:"za7ri",h:"when luck is on your side",cat:"darja"},
+  {c:"mra7",h:"feeling happy and at ease",cat:"darja"},
+  {c:"dima",h:"always, without exception",cat:"darja"},
+  {c:"khorti",h:"calling someone crazy or nonsense",cat:"darja"},
+  {c:"wech rak",h:"asking how someone is doing",cat:"darja"},
+  {c:"3lach",h:"asking why",cat:"darja"},
+  {c:"yezzi",h:"telling someone to stop, that's enough",cat:"darja"},
+  {c:"bzaf",h:"a lot, in great quantity",cat:"darja"},
+  {c:"rahi",h:"she is / I am — presence pronoun in darja",cat:"darja"},
+  // 3ADAT
+  {c:"zerda",h:"communal feast, the whole neighbourhood is invited",cat:"3adat"},
+  {c:"3arss",h:"Algerian wedding, minimum three days of celebration",cat:"3adat"},
+  {c:"raï",h:"the most iconic Algerian music genre",cat:"3adat"},
+  {c:"gasba",h:"traditional wind instrument from southern Algeria",cat:"3adat"},
+  {c:"burnous",h:"long traditional robe worn by Algerian men",cat:"3adat"},
+  {c:"7ayek",h:"white traditional fabric worn by Algerian women",cat:"3adat"},
+  {c:"7enna",h:"the night before the wedding, body art traditions",cat:"3adat"},
+  {c:"derbouqa",h:"traditional Algerian percussion instrument",cat:"3adat"},
+  {c:"chaoui",h:"Amazigh people of eastern Algeria and their culture",cat:"3adat"},
+  {c:"mouloud",h:"Islamic celebration, sweets and children",cat:"3adat"},
+  {c:"sebiba",h:"traditional festival in Djanet, deep south Algeria",cat:"3adat"},
+  {c:"tifinagh",h:"ancient writing system, Amazigh identity",cat:"3adat"},
+  {c:"chechia",h:"traditional Algerian head covering for men",cat:"3adat"},
+  // MACHAHIR
+  {c:"Khaled",h:"king of raï, from Oran",cat:"machahir"},
+  {c:"Cheb Mami",h:"prince of raï, powerful voice from Oran",cat:"machahir"},
+  {c:"Cheikha Rimitti",h:"founding mother of Algerian raï",cat:"machahir"},
+  {c:"Warda Charlamante",h:"iconic female raï voice from Oran",cat:"machahir"},
+  {c:"Cheba Fadela",h:"female raï star of the 80s and 90s",cat:"machahir"},
+  {c:"Warda el Jazairia",h:"the Algerian Rose, giant of Arab song",cat:"machahir"},
+  {c:"Rachid Taha",h:"Algerian musician who broke internationally",cat:"machahir"},
+  {c:"Idir",h:"Kabyle legend, A Vava Inouva",cat:"machahir"},
+  {c:"Lounès Matoub",h:"rebel Kabyle singer, cultural martyr",cat:"machahir"},
+  {c:"Amar Ezzahi",h:"master of classic Algerian chaabi",cat:"machahir"},
+  {c:"Cheb Akil",h:"popular raï voice of the 90s",cat:"machahir"},
+  {c:"Soolking",h:"Algerian rapper, over one billion views",cat:"machahir"},
+  {c:"Lotfi DK",h:"Algerian street rap, sharp pen",cat:"machahir"},
+  {c:"DJ Snake",h:"Algerian-origin artist, global success",cat:"machahir"},
+  {c:"Didine Canon 16",h:"raï-rap fusion, millions of fans in Algeria",cat:"machahir"},
+  {c:"Anes Tina",h:"Algerian comedian with millions of followers",cat:"machahir"},
+  {c:"Just Riadh",h:"Franco-Algerian content creator",cat:"machahir"},
+  {c:"Raouf Khelif",h:"Algerian YouTube comedy star",cat:"machahir"},
+  {c:"Smain",h:"classic Algerian stand-up comedian",cat:"machahir"},
+  {c:"Biyouna",h:"beloved Algerian actress and singer",cat:"machahir"},
+  {c:"Mahrez",h:"Algerian winger, Premier League level",cat:"machahir"},
+  {c:"Bennacer",h:"key Fennecs midfielder, plays in Europe",cat:"machahir"},
+  {c:"Slimani",h:"Algerian striker who played in top clubs",cat:"machahir"},
+  {c:"Feghouli",h:"Algerian midfielder, long European career",cat:"machahir"},
+  {c:"Rabah Madjer",h:"greatest Algerian footballer of all time",cat:"machahir"},
+  {c:"Lakhdar Belloumi",h:"Algerian football legend, golden era",cat:"machahir"},
+  {c:"Sofia Boutella",h:"Algerian actress in major international films",cat:"machahir"},
+  {c:"Leïla Bekhti",h:"acclaimed Franco-Algerian actress",cat:"machahir"},
+  {c:"Hassiba Boulmerka",h:"Algerian Olympic athletics champion",cat:"machahir"},
+  {c:"Noureddine Morceli",h:"world record holder in middle-distance running",cat:"machahir"},
+  // DERB
+  {c:"squali",h:"describing someone by their social class",cat:"derb"},
+  {c:"7arraga",h:"someone who leaves Algeria for a better life",cat:"derb"},
+  {c:"système D",h:"finding a workaround, the Algerian way",cat:"derb"},
+  {c:"frima",h:"someone who loves to show off and be seen",cat:"derb"},
+  {c:"flous",h:"talking about money",cat:"derb"},
+  {c:"baroud",h:"a fight or heated confrontation",cat:"derb"},
+  {c:"sa7eb el 7anut",h:"the corner shop guy who knows everyone",cat:"derb"},
+  {c:"samsara",h:"the middleman who arranges everything",cat:"derb"},
+  {c:"3ich",h:"living in the moment, enjoying life",cat:"derb"},
+  // DRASSA
+  {c:"bzaza",h:"the one who cheats during the exam",cat:"drassa"},
+  {c:"concours",h:"national test that decides your future in Algeria",cat:"drassa"},
+  {c:"BAC",h:"final high school exam in Algeria",cat:"drassa"},
+  {c:"intendant",h:"the important adult who manages the school",cat:"drassa"},
+  {c:"fiche",h:"written punishment note given at school",cat:"drassa"},
+  {c:"tableau",h:"what the teacher writes on in class",cat:"drassa"},
+  {c:"chef de classe",h:"the elected class representative",cat:"drassa"},
+  // 3A2ILA
+  {c:"yemma",h:"the most important person in the house",cat:"3a2ila"},
+  {c:"baba",h:"the father, head of the family",cat:"3a2ila"},
+  {c:"3ammi",h:"your father's or mother's brother",cat:"3a2ila"},
+  {c:"jeddi",h:"the eldest male of the family",cat:"3a2ila"},
+  {c:"jedda",h:"the grandmother or beloved old auntie",cat:"3a2ila"},
+  {c:"3ressa",h:"the woman of the house",cat:"3a2ila"},
+  {c:"drari",h:"the young kids running everywhere",cat:"3a2ila"},
+  {c:"jira",h:"the neighbour lady who knows everything",cat:"3a2ila"},
+  // CUSTOM — ADD YOUR WORDS BELOW
+  // {c:"YOUR WORD", h:"a vague hint for the impostor", cat:"custom"},
 ];
 
-// ══════════════════════════════════════
-//  GAME STATE
-// ══════════════════════════════════════
-var G = {
-  players: 5, imps: 1, blanks: 0,
-  hints: true, names: [], cats: ['makla'], game: null
-};
-var revIdx = 0, flipped = false;
-
-var COLORS = [
-  ['#1c4a30','#ddf0e5'],['#b83223','#fdecea'],['#c8920a','#fdf3d8'],
-  ['#1a3a7a','#dde8ff'],['#6a1a6a','#f0ddff'],['#2a6a4a','#d8f4e8'],
+// ═══════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════
+var G={players:5,imps:1,blanks:0,hints:true,names:[],cats:['makla'],game:null};
+var revIdx=0, cardShown=false;
+var COLORS=[
+  ['#1b4530','#dff0e8'],['#b52b1e','#fce9e7'],['#b8860b','#fdf4dc'],
+  ['#1a3a7a','#dce8ff'],['#6a1a6a','#f0ddff'],['#2a6a4a','#d8f4e8'],
   ['#7a3a10','#fde8d8'],['#1a4a60','#d8f0fa'],['#503010','#f8e8c8'],
   ['#3a1a5a','#eeddff'],['#1a5a4a','#d8f8f0'],['#5a2a10','#fceadc']
 ];
 
-// ══════════════════════════════════════
+// ═══════════════════════════════════════════
 //  NAVIGATION
-// ══════════════════════════════════════
-function goTo(id) {
-  document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+// ═══════════════════════════════════════════
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
   document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
-  if (id === 's-game')    buildGame();
-  if (id === 's-results') buildResults();
+  if(id==='s-game') buildGame();
+  if(id==='s-results') buildResults();
 }
 
-// ══════════════════════════════════════
+// ═══════════════════════════════════════════
 //  SETUP
-// ══════════════════════════════════════
-function step(k, d) {
-  var lim = {players:[3,12], imposters:[1,4], blanks:[0,2]};
-  var key = k === 'imposters' ? 'imps' : k;
-  G[key] = Math.max(lim[k][0], Math.min(lim[k][1], G[key] + d));
-  document.getElementById(k+'-val').textContent = G[key];
-  if (k === 'players') buildNames();
+// ═══════════════════════════════════════════
+function step(k,d){
+  var lim={players:[3,12],imposters:[1,4],blanks:[0,2]};
+  var key=k==='imposters'?'imps':k;
+  G[key]=Math.max(lim[k][0],Math.min(lim[k][1],G[key]+d));
+  document.getElementById(k+'-val').textContent=G[key];
+  if(k==='players') buildNames();
   validate();
 }
-
-function toggleHints() {
-  G.hints = !G.hints;
-  var t = document.getElementById('hint-tog');
-  var s = document.getElementById('hint-sub');
-  t.classList.toggle('on', G.hints);
-  s.textContent = G.hints ? "Activé — indice flou visible" : "Désactivé — l'imposteur est dans le noir";
+function toggleHints(){
+  G.hints=!G.hints;
+  var t=document.getElementById('htog'),s=document.getElementById('hint-sub');
+  t.classList.toggle('on',G.hints);
+  s.textContent=G.hints?'On — impostor sees a vague clue':'Off — impostor is completely blind';
 }
-
-function buildCats() {
-  var el = document.getElementById('cats');
-  el.innerHTML = '';
-  Object.keys(CATS).forEach(function(k) {
-    if (k === 'custom' && !PAIRS.some(function(w){ return w.cat === 'custom'; })) return;
-    var b = document.createElement('button');
-    b.className = 'cat' + (G.cats.indexOf(k) >= 0 ? ' on' : '');
-    b.textContent = CATS[k];
-    b.onclick = function() {
-      var idx = G.cats.indexOf(k);
-      if (idx >= 0) {
-        if (G.cats.length === 1) return;
-        G.cats.splice(idx, 1);
-        b.classList.remove('on');
-      } else {
-        G.cats.push(k);
-        b.classList.add('on');
-      }
+function buildCats(){
+  var el=document.getElementById('cats'); el.innerHTML='';
+  Object.keys(CATS).forEach(function(k){
+    if(k==='custom'&&!PAIRS.some(function(p){return p.cat==='custom';})) return;
+    var b=document.createElement('button');
+    b.className='cat'+(G.cats.indexOf(k)>=0?' on':'');
+    b.textContent=CATS[k];
+    b.onclick=function(){
+      var i=G.cats.indexOf(k);
+      if(i>=0){if(G.cats.length===1)return;G.cats.splice(i,1);b.classList.remove('on');}
+      else{G.cats.push(k);b.classList.add('on');}
     };
     el.appendChild(b);
   });
 }
-
-function buildNames() {
-  var n = G.players;
-  while (G.names.length < n) G.names.push('');
-  G.names = G.names.slice(0, n);
-  var el = document.getElementById('names-list');
-  el.innerHTML = '';
-  for (var i = 0; i < n; i++) {
-    var fg = COLORS[i % COLORS.length][0];
-    var bg = COLORS[i % COLORS.length][1];
-    var row = document.createElement('div');
-    row.className = 'name-row';
-    row.innerHTML = '<div class="name-num" style="background:'+bg+';color:'+fg+'">'+(i+1)+'</div>'
-      + '<input class="name-inp" type="text" maxlength="16" placeholder="Joueur '+(i+1)+'" value="'+G.names[i]+'" oninput="G.names['+i+']=this.value"/>';
+function buildNames(){
+  var n=G.players;
+  while(G.names.length<n) G.names.push('');
+  G.names=G.names.slice(0,n);
+  var el=document.getElementById('nlist'); el.innerHTML='';
+  for(var i=0;i<n;i++){
+    var fg=COLORS[i%COLORS.length][0],bg=COLORS[i%COLORS.length][1];
+    var row=document.createElement('div'); row.className='nrow';
+    row.innerHTML='<div class="nnum" style="background:'+bg+';color:'+fg+'">'+(i+1)+'</div>'
+      +'<input class="ninp" type="text" maxlength="16" placeholder="Player '+(i+1)+'" value="'+G.names[i]+'" oninput="G.names['+i+']=this.value"/>';
     el.appendChild(row);
   }
 }
-
-function validate() {
-  var ok = (G.imps + G.blanks) < G.players;
-  document.getElementById('err-msg').style.display = ok ? 'none' : 'block';
-  document.getElementById('deal-btn').disabled = !ok;
+function validate(){
+  var ok=(G.imps+G.blanks)<G.players;
+  document.getElementById('emsg').style.display=ok?'none':'block';
+  document.getElementById('deal-btn').disabled=!ok;
 }
 
-// ══════════════════════════════════════
-//  START GAME
-// ══════════════════════════════════════
-function startGame() {
-  var pool = PAIRS.filter(function(w){ return G.cats.indexOf(w.cat) >= 0; });
-  if (!pool.length) { alert('Aucun mot dans les catégories choisies'); return; }
-  var pair = pool[Math.floor(Math.random() * pool.length)];
-
-  var roles = [];
-  for (var i = 0; i < G.imps; i++) roles.push('i');
-  for (var i = 0; i < G.blanks; i++) roles.push('b');
-  while (roles.length < G.players) roles.push('c');
+// ═══════════════════════════════════════════
+//  START
+// ═══════════════════════════════════════════
+function startGame(){
+  var pool=PAIRS.filter(function(p){return G.cats.indexOf(p.cat)>=0;});
+  if(!pool.length){alert('No words in selected categories');return;}
+  var pair=pool[Math.floor(Math.random()*pool.length)];
+  var roles=[];
+  for(var i=0;i<G.imps;i++) roles.push('i');
+  for(var i=0;i<G.blanks;i++) roles.push('b');
+  while(roles.length<G.players) roles.push('c');
   shuffle(roles);
-
-  G.game = {
-    players: roles.map(function(role, i) {
-      var nm = (G.names[i] || '').trim() || ('Joueur ' + (i+1));
-      return {
-        name: nm, role: role,
-        word: role === 'c' ? pair.c : null,
-        hint: pair.h || null,
-        color: COLORS[i % COLORS.length],
-        out: false,
-        init: nm.charAt(0).toUpperCase() || (i+1)+''
-      };
+  G.game={
+    players:roles.map(function(role,i){
+      var nm=(G.names[i]||'').trim()||('Player '+(i+1));
+      return{name:nm,role:role,word:role==='c'?pair.c:null,hint:pair.h||null,
+             color:COLORS[i%COLORS.length],out:false,
+             init:nm.charAt(0).toUpperCase()||(i+1)+''};
     }),
-    word: pair.c, hint: pair.h || null
+    word:pair.c, hint:pair.h||null
   };
-
-  revIdx = 0; flipped = false;
-  showReveal(0);
-  goTo('s-reveal');
+  revIdx=0;
+  showPass(0);
 }
 
-// ══════════════════════════════════════
-//  REVEAL
-// ══════════════════════════════════════
-function showReveal(idx) {
-  var p = G.game.players[idx];
-  var total = G.game.players.length;
-  document.getElementById('rev-prog').textContent = (idx+1) + ' / ' + total;
-  document.getElementById('rev-name').textContent = p.name;
-  document.getElementById('card-inn').classList.remove('flip');
-  flipped = false;
-  document.getElementById('tap-cue').style.display = 'block';
-  document.getElementById('btn-next').style.display = 'none';
-  document.getElementById('btn-go').style.display = 'none';
-  document.getElementById('imp-panel').style.display = 'none';
+// ═══════════════════════════════════════════
+//  PASS SCREEN — shown between every player
+// ═══════════════════════════════════════════
+function showPass(idx){
+  var p=G.game.players[idx];
+  var fg=p.color[0], bg=p.color[1];
+  document.getElementById('pass-av').style.background=bg;
+  document.getElementById('pass-av').style.color=fg;
+  document.getElementById('pass-av').textContent=p.init;
+  document.getElementById('pass-name').textContent=p.name;
+  goTo('s-pass');
+}
 
-  var front = document.getElementById('cfront');
-  var hasHint = G.hints && p.role === 'i' && p.hint;
-  var hintHTML = hasHint
-    ? '<div class="hint-box"><span class="hint-ico">💡</span><span class="hint-txt">'+p.hint+'</span></div>'
-    : (p.role === 'i' ? '<div class="csub" style="margin-top:8px">Écoute bien et bluff !</div>' : '');
+// called when player clicks "I'm ready"
+function showCard(){
+  var p=G.game.players[revIdx];
+  var total=G.game.players.length;
+  cardShown=false;
 
-  if (p.role === 'c') {
-    front.innerHTML = '<span class="crole c">Citoyen</span>'
-      + '<div class="cword">'+p.word+'</div>'
-      + '<div class="csub">Décris ce mot sans le trahir</div>';
-  } else if (p.role === 'i') {
-    front.innerHTML = '<span class="crole i">Imposteur 🕵️</span>'
-      + '<div class="cword" style="color:var(--ink3);font-size:40px;letter-spacing:4px">???</div>'
-      + '<div class="ctag">Pas de mot — devine et bluff</div>'
-      + hintHTML;
+  // reset card to locked state
+  document.getElementById('crd-lock').classList.remove('hidden');
+  document.getElementById('crd-role').classList.remove('shown');
+  document.getElementById('crd-role').innerHTML='';
+  document.getElementById('tap-hint').style.display='block';
+  document.getElementById('btn-next').style.display='none';
+  document.getElementById('btn-go').style.display='none';
+  document.getElementById('imp-band').style.display='none';
+  document.getElementById('card-prog').textContent=(revIdx+1)+' / '+total;
+
+  goTo('s-card');
+}
+
+function tapCard(){
+  if(cardShown) return;
+  cardShown=true;
+
+  var p=G.game.players[revIdx];
+  document.getElementById('tap-hint').style.display='none';
+
+  // build role face content
+  var hasHint=G.hints&&p.role==='i'&&p.hint;
+  var hintHTML=hasHint
+    ?'<div class="hintbox"><span class="hico">💡</span><span class="htxt">'+p.hint+'</span></div>'
+    :(p.role==='i'?'<div class="csub" style="margin-top:8px">Listen carefully and bluff!</div>':'');
+
+  var html='';
+  if(p.role==='c'){
+    html='<span class="crole-tag c">Citizen</span>'
+        +'<div class="cword">'+p.word+'</div>'
+        +'<div class="csub">Describe this word without giving it away</div>';
+  } else if(p.role==='i'){
+    html='<span class="crole-tag i">Impostor 🕵️</span>'
+        +'<div class="cword" style="color:var(--ink3);font-size:38px;letter-spacing:5px">???</div>'
+        +'<div class="ctag">No word — guess and bluff</div>'
+        +hintHTML;
   } else {
-    front.innerHTML = '<span class="crole b">Blanc</span>'
-      + '<div class="cword" style="color:var(--ink3);font-size:40px;letter-spacing:4px">???</div>'
-      + '<div class="csub">Aucun indice — écoute et devine</div>';
+    html='<span class="crole-tag b">Blank</span>'
+        +'<div class="cword" style="color:var(--ink3);font-size:38px;letter-spacing:5px">???</div>'
+        +'<div class="csub">No clue — listen and figure it out</div>';
   }
-}
 
-function flipCard() {
-  if (flipped) return;
-  flipped = true;
-  document.getElementById('card-inn').classList.add('flip');
-  document.getElementById('tap-cue').style.display = 'none';
-  var last = (revIdx === G.game.players.length - 1);
-  if (last) {
-    var imps = G.game.players.filter(function(p){ return p.role === 'i'; });
-    if (imps.length > 1) {
-      document.getElementById('imp-chips').innerHTML =
-        imps.map(function(u){ return '<span class="imp-chip">'+u.name+'</span>'; }).join('');
-      document.getElementById('imp-panel').style.display = 'block';
+  document.getElementById('crd-role').innerHTML=html;
+
+  // animate: lock fades out, role fades in
+  document.getElementById('crd-lock').classList.add('hidden');
+  document.getElementById('crd-role').classList.add('shown');
+
+  var last=(revIdx===G.game.players.length-1);
+  if(last){
+    // show impostor band if multiple impostors
+    var imps=G.game.players.filter(function(p){return p.role==='i';});
+    if(imps.length>1){
+      document.getElementById('imp-chips').innerHTML=
+        imps.map(function(u){return '<span class="imp-chip">'+u.name+'</span>';}).join('');
+      document.getElementById('imp-band').style.display='block';
     }
-    document.getElementById('btn-go').style.display = 'block';
+    document.getElementById('btn-go').style.display='block';
   } else {
-    document.getElementById('btn-next').style.display = 'block';
+    document.getElementById('btn-next').style.display='block';
   }
 }
 
-function nextReveal() { revIdx++; showReveal(revIdx); }
+// "Next player" button — go to pass screen first
+function nextPlayer(){
+  revIdx++;
+  showPass(revIdx);
+}
 
-// ══════════════════════════════════════
+// ═══════════════════════════════════════════
 //  GAME SCREEN
-// ══════════════════════════════════════
-function buildGame() {
-  document.getElementById('word-banner').innerHTML =
-    '<div class="wb-lbl">Mot secret</div><div class="wb-word">'+G.game.word+'</div>';
+// ═══════════════════════════════════════════
+function buildGame(){
+  document.getElementById('wbanner').innerHTML=
+    '<div class="wb-l">Secret word</div><div class="wb-w">'+G.game.word+'</div>';
   renderGrid();
 }
-
-function renderGrid() {
-  var g = document.getElementById('pgrid');
-  g.innerHTML = '';
-  G.game.players.forEach(function(p, i) {
-    var fg = p.color[0], bg = p.color[1];
-    var d = document.createElement('div');
-    d.className = 'pcrd' + (p.out ? ' out' : '');
-    d.onclick = (function(idx){ return function(){ G.game.players[idx].out = !G.game.players[idx].out; renderGrid(); }; })(i);
-    d.innerHTML = (p.out ? '<div class="out-bdg">✕</div>' : '')
-      + '<div class="pav" style="background:'+bg+';color:'+fg+'">'+p.init+'</div>'
-      + '<div class="pnm">'+p.name+'</div>';
+function renderGrid(){
+  var g=document.getElementById('pgrid'); g.innerHTML='';
+  G.game.players.forEach(function(p,i){
+    var d=document.createElement('div');
+    d.className='pcrd'+(p.out?' out':'');
+    d.onclick=(function(idx){return function(){G.game.players[idx].out=!G.game.players[idx].out;renderGrid();};})(i);
+    d.innerHTML=(p.out?'<div class="obdg">✕</div>':'')
+      +'<div class="pav" style="background:'+p.color[1]+';color:'+p.color[0]+'">'+p.init+'</div>'
+      +'<div class="pnm">'+p.name+'</div>';
     g.appendChild(d);
   });
 }
 
-// ══════════════════════════════════════
+// ═══════════════════════════════════════════
 //  RESULTS
-// ══════════════════════════════════════
-function buildResults() {
-  var players = G.game.players, word = G.game.word, hint = G.game.hint;
-  var imps = players.filter(function(p){ return p.role === 'i'; });
-  var allOut = imps.every(function(p){ return p.out; });
-
-  var rows = players.map(function(p) {
-    var fg = p.color[0], bg = p.color[1];
-    var icon = p.role === 'c' ? '✅' : p.role === 'i' ? '🕵️' : '⬜';
-    var role = p.role === 'c' ? 'Citoyen — '+word
-      : p.role === 'i' ? 'Imposteur — le mot était : '+word
-      : 'Blanc — aucun mot';
-    var elim = p.out ? '<span class="res-elim">éliminé</span>' : '';
-    return '<div class="res-row">'
-      + '<div class="res-av" style="background:'+bg+';color:'+fg+'">'+p.init+'</div>'
-      + '<div class="res-info"><div class="res-nm">'+p.name+' '+elim+'</div><div class="res-rl">'+role+'</div></div>'
-      + '<div class="res-ico">'+icon+'</div>'
-      + '</div>';
+// ═══════════════════════════════════════════
+function buildResults(){
+  var players=G.game.players,word=G.game.word,hint=G.game.hint;
+  var imps=players.filter(function(p){return p.role==='i';});
+  var won=imps.every(function(p){return p.out;});
+  var rows=players.map(function(p){
+    var icon=p.role==='c'?'✅':p.role==='i'?'🕵️':'⬜';
+    var rl=p.role==='c'?'Citizen — '+word
+      :p.role==='i'?'Impostor — the word was: '+word
+      :'Blank — no word';
+    var elim=p.out?'<span class="relim">eliminated</span>':'';
+    return '<div class="rrow">'
+      +'<div class="rav" style="background:'+p.color[1]+';color:'+p.color[0]+'">'+p.init+'</div>'
+      +'<div style="flex:1;min-width:0"><div class="rnm">'+p.name+' '+elim+'</div><div class="rrl">'+rl+'</div></div>'
+      +'<div class="rico">'+icon+'</div></div>';
   }).join('');
-
-  document.getElementById('res-inner').innerHTML =
+  document.getElementById('res-inner').innerHTML=
     '<div class="res-hero">'
-    + '<span class="res-emoji">'+(allOut ? '🏆' : '😈')+'</span>'
-    + '<div class="res-title">'+(allOut ? 'Les citoyens gagnent !' : 'Les imposteurs gagnent !')+'</div>'
-    + '<div class="res-sub">'+(allOut ? 'Bravo — le metnaker a été démasqué 💪' : "El metnaker s'en est sorti 🕵️")+'</div>'
-    + '</div>'
-    + '<div class="words-rev">'
-    + '<div class="wr ck"><div class="wr-lbl">Mot secret</div><div class="wr-word">'+word+'</div></div>'
-    + '<div class="wr ik"><div class="wr-lbl">Indice imposteur</div><div class="wr-word">'+(hint||'—')+'</div></div>'
-    + '</div>'
-    + '<div class="res-rows">'+rows+'</div>'
-    + '<div class="sp"></div>';
+    +'<span class="res-emo">'+(won?'🏆':'😈')+'</span>'
+    +'<div class="res-title">'+(won?'Citizens win!':'Impostors win!')+'</div>'
+    +'<div class="res-sub">'+(won?'The impostor was unmasked 💪':"The impostor got away 🕵️")+'</div>'
+    +'</div>'
+    +'<div class="wrev">'
+    +'<div class="wc ck"><div class="wc-l">Secret word</div><div class="wc-w">'+word+'</div></div>'
+    +'<div class="wc ik"><div class="wc-l">Impostor hint</div><div class="wc-w">'+(hint||'—')+'</div></div>'
+    +'</div>'
+    +'<div class="rrows">'+rows+'</div>'
+    +'<div class="sp"></div>';
 }
 
-function rematch() { G.game.players.forEach(function(p){ p.out = false; }); startGame(); }
-function confirmQuit() { if (confirm('Quitter cette partie ?')) goTo('s-setup'); }
+function rematch(){G.game.players.forEach(function(p){p.out=false;});startGame();}
+function confirmQuit(){if(confirm('Quit this game?')) goTo('s-setup');}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}}
 
-function shuffle(a) {
-  for (var i = a.length-1; i > 0; i--) {
-    var j = Math.floor(Math.random()*(i+1));
-    var t = a[i]; a[i] = a[j]; a[j] = t;
-  }
-}
-
-// ══════════════════════════════════════
+// ═══════════════════════════════════════════
 //  INIT
-// ══════════════════════════════════════
+// ═══════════════════════════════════════════
 buildCats();
 buildNames();
 validate();
