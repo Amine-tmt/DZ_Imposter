@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+  <title>Metnaker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- ████ SPLASH ████ -->
+<div id="s-splash" class="screen active">
+  <div class="splash-wrap">
+    <div class="splash-badge">🇩🇿</div>
+    <h1 class="splash-title">Metnaker</h1>
+    <p class="splash-ar">المتنكر</p>
+    <p class="splash-tagline">شكون هو المتنكر فيكم ؟</p>
+  </div>
+  <div class="splash-actions">
+    <button class="btn-fill" onclick="goTo('s-setup')">العب — Jouer</button>
+    <button class="btn-ghost" onclick="goTo('s-rules')">Comment jouer ?</button>
+  </div>
+  <p class="splash-credit">100% Dziri 🇩🇿</p>
+</div>
+
+<!-- ████ RULES ████ -->
+<div id="s-rules" class="screen">
+  <div class="topbar">
+    <button class="icon-btn" onclick="goTo('s-splash')">←</button>
+    <span class="topbar-title">Comment jouer</span>
+    <span style="width:36px"></span>
+  </div>
+  <div class="scroll-area">
+    <div class="rule-section">
+      <div class="rule-n">01</div>
+      <h3 class="rule-h">Les rôles</h3>
+      <div class="role-item">
+        <span class="pill pill-c">Citoyen</span>
+        <span class="role-desc">Voit le mot secret — décris-le sans le trahir</span>
+      </div>
+      <div class="role-item">
+        <span class="pill pill-i">Imposteur</span>
+        <span class="role-desc">Pas de mot — juste un indice flou. Bluff et survie.</span>
+      </div>
+      <div class="role-item">
+        <span class="pill pill-b">Blanc</span>
+        <span class="role-desc">Rien du tout — devine en écoutant les autres</span>
+      </div>
+    </div>
+    <div class="rule-section">
+      <div class="rule-n">02</div>
+      <h3 class="rule-h">Le tour</h3>
+      <div class="rule-steps">
+        <div class="rule-step"><span class="step-dot"></span>Passe le téléphone — chaque joueur voit sa carte en secret</div>
+        <div class="rule-step"><span class="step-dot"></span>Chacun dit <strong>un seul mot</strong> pour décrire son mot</div>
+        <div class="rule-step"><span class="step-dot"></span>Discussion — qui est suspect ?</div>
+        <div class="rule-step"><span class="step-dot"></span>Vote — le plus voté est éliminé</div>
+        <div class="rule-step"><span class="step-dot"></span>Si le dernier imposteur devine le vrai mot — il gagne quand même</div>
+      </div>
+    </div>
+    <div class="rule-section">
+      <div class="rule-n">03</div>
+      <h3 class="rule-h">L'indice 💡</h3>
+      <p class="rule-p">L'imposteur n'a <strong>aucun mot</strong>. Si les indices sont activés, il reçoit une courte phrase floue pour l'aider à bluffer. Les citoyens ne voient jamais d'indices.</p>
+    </div>
+  </div>
+  <div class="bottom-bar">
+    <button class="btn-fill" onclick="goTo('s-setup')">C'est parti</button>
+  </div>
+</div>
+
+<!-- ████ SETUP ████ -->
+<div id="s-setup" class="screen">
+  <div class="topbar">
+    <button class="icon-btn" onclick="goTo('s-splash')">←</button>
+    <span class="topbar-title">Paramètres</span>
+    <span style="width:36px"></span>
+  </div>
+  <div class="scroll-area">
+
+    <div class="setting-block">
+      <div class="setting-row">
+        <span class="setting-label">Joueurs</span>
+        <div class="stepper">
+          <button class="step-btn" onclick="step('players',-1)">−</button>
+          <span class="step-val" id="players-val">5</span>
+          <button class="step-btn" onclick="step('players',1)">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="setting-block">
+      <div class="setting-row">
+        <span class="setting-label">Imposteurs</span>
+        <div class="stepper">
+          <button class="step-btn" onclick="step('imposters',-1)">−</button>
+          <span class="step-val" id="imposters-val">1</span>
+          <button class="step-btn" onclick="step('imposters',1)">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="setting-block">
+      <div class="setting-row">
+        <span class="setting-label">Carte blanche</span>
+        <div class="stepper">
+          <button class="step-btn" onclick="step('blanks',-1)">−</button>
+          <span class="step-val" id="blanks-val">0</span>
+          <button class="step-btn" onclick="step('blanks',1)">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="setting-block">
+      <div class="setting-row">
+        <div>
+          <span class="setting-label">Indices imposteur</span>
+          <p class="setting-sub" id="hint-sub">Activé — indice flou visible</p>
+        </div>
+        <button class="toggle" id="hint-toggle" onclick="toggleHints()">
+          <span class="toggle-knob"></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="setting-block">
+      <span class="setting-label">Catégories</span>
+      <div class="cats" id="cats"></div>
+    </div>
+
+    <div class="setting-block">
+      <span class="setting-label">Noms <span class="opt">optionnel</span></span>
+      <div id="names-list"></div>
+    </div>
+
+    <div id="err-msg" class="err-msg" style="display:none">
+      Trop d'imposteurs + blancs pour ce nombre de joueurs
+    </div>
+
+  </div>
+  <div class="bottom-bar">
+    <button class="btn-fill" id="deal-btn" onclick="startGame()">Distribuer les cartes</button>
+  </div>
+</div>
+
+<!-- ████ REVEAL ████ -->
+<div id="s-reveal" class="screen reveal-bg">
+  <div class="reveal-top">
+    <span class="rev-prog" id="rev-prog">1 / 5</span>
+    <span class="rev-name" id="rev-name">—</span>
+  </div>
+  <div class="reveal-mid">
+    <div class="card" id="card" onclick="flipCard()">
+      <div class="card-inner" id="card-inner">
+        <div class="card-back">
+          <div class="card-back-icon">🔒</div>
+          <p class="card-back-label">Appuie pour voir ton rôle</p>
+          <p class="card-back-sub">Assure-toi que personne ne regarde</p>
+        </div>
+        <div class="card-front" id="card-front"></div>
+      </div>
+    </div>
+    <p class="tap-cue" id="tap-cue">Appuie sur la carte</p>
+  </div>
+  <div id="imp-reveal" style="display:none">
+    <div class="imp-notice">
+      <p class="imp-notice-title">🕵️ Les imposteurs se connaissent</p>
+      <div class="imp-chips" id="imp-chips"></div>
+    </div>
+  </div>
+  <div class="bottom-bar reveal-bar">
+    <button class="btn-fill" id="btn-next" onclick="nextReveal()" style="display:none">Joueur suivant</button>
+    <button class="btn-fill" id="btn-go" onclick="goTo('s-game')" style="display:none">Yallah ! 🎮</button>
+  </div>
+</div>
+
+<!-- ████ GAME ████ -->
+<div id="s-game" class="screen">
+  <div class="game-topbar">
+    <button class="icon-btn" onclick="confirmQuit()">✕</button>
+    <span class="game-topbar-title">Metnaker</span>
+    <button class="icon-btn" onclick="goTo('s-results')">🔍</button>
+  </div>
+  <div id="word-banner"></div>
+  <p class="elim-hint">Appuie pour marquer éliminé</p>
+  <div class="players-grid" id="players-grid"></div>
+  <div class="bottom-bar">
+    <button class="btn-danger" onclick="goTo('s-results')">Révéler les rôles 🎭</button>
+  </div>
+</div>
+
+<!-- ████ RESULTS ████ -->
+<div id="s-results" class="screen">
+  <div class="topbar">
+    <button class="icon-btn" onclick="goTo('s-game')">←</button>
+    <span class="topbar-title">Résultats</span>
+    <span style="width:36px"></span>
+  </div>
+  <div id="results-inner"></div>
+  <div class="bottom-bar two-col">
+    <button class="btn-outline" onclick="goTo('s-setup')">Nouvelle partie</button>
+    <button class="btn-fill" onclick="rematch()">Revanche 🔄</button>
+  </div>
+</div>
+
+<script type="module" src="game.js"></script>
+</body>
+</html>
