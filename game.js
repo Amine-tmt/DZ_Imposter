@@ -271,7 +271,7 @@ function buildResults() {
     <div class="spacer16"></div>`;
 }
 
-window.rematch     = () => { G.game.players.forEach(p => p.out = false); startGame(); };
+window.rematch     = () => { G.game.players.forEach(p => p.out = false); window.startGame(); };
 window.confirmQuit = () => { if (confirm('Quitter cette partie ?')) goTo('s-setup'); };
 
 function shuffle(a) {
