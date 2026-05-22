@@ -4,12 +4,12 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
 <title>Imposteur</title>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#f7f4ef;
-  --surf:#ffffff;
+  --surf:#fff;
   --b1:#eae4da;
   --b2:#d6cec0;
   --ink:#14100a;
@@ -21,221 +21,186 @@
   --grnbg:#dff0e8;
   --red:#b52b1e;
   --redbg:#fce9e7;
-  --fd:'Instrument Serif',Georgia,serif;
   --fu:'Inter',system-ui,sans-serif;
-  --r:10px;
-  --rl:16px;
+  --r:12px;
 }
 html,body{font-family:var(--fu);background:var(--bg);color:var(--ink);min-height:100svh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
-
-/* ── screens ── */
-.screen{display:none;flex-direction:column;min-height:100svh;animation:fadeIn .18s ease}
+.screen{display:none;flex-direction:column;min-height:100svh}
 .screen.active{display:flex}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
-/* ── topbar ── */
-.tb{display:flex;align-items:center;height:52px;padding:0 6px;background:var(--surf);border-bottom:1px solid var(--b1);position:sticky;top:0;z-index:20}
-.tb-title{font-family:var(--fd);font-size:17px;font-style:italic;flex:1;text-align:center;color:var(--ink);letter-spacing:.2px}
-.ib{width:36px;height:36px;border-radius:50%;border:none;background:transparent;color:var(--ink2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s;flex-shrink:0}
+/* topbar */
+.tb{display:flex;align-items:center;height:52px;padding:0 8px;background:var(--surf);border-bottom:1px solid var(--b1)}
+.tb-title{font-size:16px;font-weight:600;flex:1;text-align:center;color:var(--ink)}
+.ib{width:36px;height:36px;border-radius:50%;border:none;background:transparent;color:var(--ink2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .ib:active{background:var(--b1)}
 
-/* ── layout ── */
-.body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
-.bar{padding:12px 16px 30px;background:var(--surf);border-top:1px solid var(--b1);display:flex;flex-direction:column;gap:8px}
+/* layout */
+.body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
+.bar{padding:12px 16px 32px;background:var(--surf);border-top:1px solid var(--b1);display:flex;flex-direction:column;gap:8px}
 .bar.row{flex-direction:row;gap:8px}
-.bar.row .bf{flex:1}
-.bar.tr{background:transparent;border-top:1px solid rgba(255,255,255,.1)}
+.bar.tr{background:transparent;border-top:1px solid rgba(255,255,255,.1);padding:12px 20px 36px}
 
-/* ── buttons ── */
-.bf{width:100%;padding:14px 16px;background:var(--ink);color:#fff;border:none;border-radius:var(--r);font-family:var(--fd);font-size:16px;font-style:italic;font-weight:400;letter-spacing:.3px;cursor:pointer;transition:opacity .1s,transform .1s}
+/* buttons */
+.bf{display:block;width:100%;padding:14px;background:var(--ink);color:#fff;border:none;border-radius:var(--r);font-family:var(--fu);font-size:15px;font-weight:600;cursor:pointer;text-align:center;transition:opacity .1s,transform .1s}
 .bf:active{transform:scale(.975);opacity:.8}
 .bf:disabled{opacity:.3;pointer-events:none}
-.bg{width:100%;padding:12px 16px;background:transparent;color:var(--ink2);border:1.5px solid var(--b2);border-radius:var(--r);font-family:var(--fu);font-size:14px;font-weight:500;cursor:pointer;transition:background .1s}
+.bg{display:block;width:100%;padding:12px;background:transparent;color:var(--ink2);border:1.5px solid var(--b2);border-radius:var(--r);font-family:var(--fu);font-size:14px;font-weight:500;cursor:pointer;text-align:center}
 .bg:active{background:var(--b1)}
-.bo{padding:12px 16px;background:var(--bg);color:var(--ink2);border:1.5px solid var(--b2);border-radius:var(--r);font-family:var(--fu);font-size:14px;font-weight:500;cursor:pointer;transition:background .1s}
+.bo{flex:1;padding:12px;background:var(--bg);color:var(--ink2);border:1.5px solid var(--b2);border-radius:var(--r);font-family:var(--fu);font-size:14px;font-weight:500;cursor:pointer;text-align:center}
 .bo:active{background:var(--b1)}
-.bd{width:100%;padding:14px 16px;background:var(--red);color:#fff;border:none;border-radius:var(--r);font-family:var(--fd);font-size:16px;font-style:italic;cursor:pointer;transition:opacity .1s,transform .1s}
-.bd:active{transform:scale(.975);opacity:.8}
+.bd{display:block;width:100%;padding:14px;background:var(--red);color:#fff;border:none;border-radius:var(--r);font-family:var(--fu);font-size:15px;font-weight:600;cursor:pointer;text-align:center}
+.bd:active{opacity:.8}
 
-/* ═══════════════════════════════════
-   SPLASH
-═══════════════════════════════════ */
-#s-splash{background:var(--ink);align-items:center;justify-content:center;gap:0}
-.sp-inner{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 32px;text-align:center;gap:0}
-.sp-flag{font-size:48px;margin-bottom:20px}
-.sp-title{font-family:var(--fd);font-size:72px;font-style:italic;color:#fff;line-height:.95;letter-spacing:-2px;margin-bottom:12px}
-.sp-sub{font-size:13px;color:rgba(255,255,255,.35);letter-spacing:2px;text-transform:uppercase;margin-bottom:48px}
-.sp-btns{width:100%;max-width:300px;display:flex;flex-direction:column;gap:10px}
-.sp-btns .bf{background:#fff;color:var(--ink);font-size:17px;padding:16px}
-.sp-btns .bg{border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.5)}
-.sp-foot{font-size:11px;color:rgba(255,255,255,.15);padding:16px 0 28px;letter-spacing:1px;text-transform:uppercase}
+/* ═══ SPLASH ═══ */
+#s-splash{background:var(--ink);align-items:center;justify-content:center}
+.spl-in{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 32px;text-align:center}
+.spl-flag{font-size:44px;margin-bottom:16px}
+.spl-title{font-size:64px;font-weight:700;color:#fff;line-height:1;letter-spacing:-2px;margin-bottom:8px}
+.spl-sub{font-size:12px;color:rgba(255,255,255,.3);letter-spacing:2px;text-transform:uppercase;margin-bottom:48px}
+.spl-btns{width:100%;max-width:280px;display:flex;flex-direction:column;gap:10px}
+.spl-btns .bf{background:#fff;color:var(--ink);font-size:16px;padding:15px}
+.spl-btns .bg{border-color:rgba(255,255,255,.18);color:rgba(255,255,255,.4)}
+.spl-foot{font-size:11px;color:rgba(255,255,255,.12);padding:0 0 28px;letter-spacing:1px;text-transform:uppercase}
 
-/* ═══════════════════════════════════
-   RULES
-═══════════════════════════════════ */
-.rule-blk{background:var(--surf);border:1px solid var(--b1);border-radius:var(--rl);padding:20px}
-.rule-n{font-size:11px;font-weight:600;color:var(--ink3);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
-.rule-h{font-family:var(--fd);font-size:21px;font-style:italic;color:var(--ink);margin-bottom:14px}
-.role-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
-.role-row:last-child{margin-bottom:0}
-.pill{padding:3px 10px;border-radius:100px;font-size:11px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;flex-shrink:0;margin-top:2px}
+/* ═══ RULES ═══ */
+.rblk{background:var(--surf);border:1px solid var(--b1);border-radius:14px;padding:18px}
+.rn{font-size:10px;font-weight:600;color:var(--ink3);letter-spacing:2px;text-transform:uppercase;margin-bottom:5px}
+.rh{font-size:17px;font-weight:700;color:var(--ink);margin-bottom:12px}
+.ri{display:flex;align-items:flex-start;gap:9px;margin-bottom:9px}
+.ri:last-child{margin-bottom:0}
+.pill{padding:3px 9px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;flex-shrink:0;margin-top:2px}
 .pc{background:var(--grnbg);color:var(--grn)}
 .pi{background:var(--redbg);color:var(--red)}
-.pb{background:var(--b1);color:var(--ink3)}
-.role-d{font-size:13px;color:var(--ink2);line-height:1.55}
-.rule-p{font-size:13px;color:var(--ink2);line-height:1.65}
-.rule-steps{display:flex;flex-direction:column;gap:9px;margin-top:2px}
-.rule-step{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--ink2);line-height:1.5}
-.dot{width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:7px}
+.rd{font-size:13px;color:var(--ink2);line-height:1.55}
+.rsteps{display:flex;flex-direction:column;gap:8px}
+.rstep{display:flex;align-items:flex-start;gap:9px;font-size:13px;color:var(--ink2);line-height:1.5}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:6px}
 
-/* ═══════════════════════════════════
-   SETUP
-═══════════════════════════════════ */
-.sblk{background:var(--surf);border:1px solid var(--b1);border-radius:var(--rl);padding:18px}
+/* ═══ SETUP ═══ */
+.sblk{background:var(--surf);border:1px solid var(--b1);border-radius:14px;padding:18px}
 .srow{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.slbl{font-family:var(--fd);font-size:17px;font-style:italic;color:var(--ink);display:block;margin-bottom:14px}
+.slbl{font-size:15px;font-weight:600;color:var(--ink)}
 .srow .slbl{margin-bottom:0}
 .ssub{font-size:11px;color:var(--ink3);margin-top:3px}
-.opt{font-family:var(--fu);font-size:11px;font-weight:400;font-style:normal;color:var(--ink3);margin-left:5px}
-/* stepper */
-.stepper{display:flex;align-items:center;gap:0}
-.stb{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--b2);background:var(--bg);color:var(--ink);font-size:20px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s;flex-shrink:0}
+.opt{font-size:11px;font-weight:400;color:var(--ink3);margin-left:4px}
+.stepper{display:flex;align-items:center}
+.stb{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--b2);background:var(--bg);color:var(--ink);font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .stb:active{background:var(--b2)}
-.stv{font-family:var(--fd);font-size:38px;font-style:italic;color:var(--ink);min-width:56px;text-align:center;line-height:1}
-/* toggle */
-.tog{width:46px;height:24px;border-radius:100px;background:var(--b2);border:none;cursor:pointer;position:relative;flex-shrink:0;transition:background .2s}
+.stv{font-size:34px;font-weight:700;color:var(--ink);min-width:52px;text-align:center;line-height:1}
+.tog{width:44px;height:24px;border-radius:100px;background:var(--b2);border:none;cursor:pointer;position:relative;flex-shrink:0;transition:background .2s}
 .tog.on{background:var(--ink)}
-.tok{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 4px rgba(0,0,0,.2)}
-.tog.on .tok{transform:translateX(22px)}
-/* cats */
-.cats{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
-.cat{padding:6px 13px;border-radius:100px;border:1.5px solid var(--b2);background:transparent;color:var(--ink2);font-family:var(--fu);font-size:12px;font-weight:500;cursor:pointer;transition:all .12s}
+.tok{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.tog.on .tok{transform:translateX(20px)}
+.cats{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.cat{padding:6px 12px;border-radius:100px;border:1.5px solid var(--b2);background:transparent;color:var(--ink2);font-family:var(--fu);font-size:12px;font-weight:500;cursor:pointer}
 .cat.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-/* names */
-.nrow{display:flex;align-items:center;gap:9px;margin-top:10px}
-.nnum{width:26px;height:26px;border-radius:50%;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.ninp{flex:1;padding:9px 11px;border:1.5px solid var(--b1);border-radius:8px;font-family:var(--fu);font-size:14px;background:var(--bg);color:var(--ink);outline:none;transition:border-color .12s}
+.nrow{display:flex;align-items:center;gap:8px;margin-top:9px}
+.nnum{width:24px;height:24px;border-radius:50%;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ninp{flex:1;padding:8px 11px;border:1.5px solid var(--b1);border-radius:8px;font-family:var(--fu);font-size:14px;background:var(--bg);color:var(--ink);outline:none}
 .ninp:focus{border-color:var(--ink2)}
 .emsg{background:#fffbe8;border:1px solid #e8c840;border-radius:8px;padding:9px 13px;font-size:12px;color:#7a5800;font-weight:500}
 
-/* ═══════════════════════════════════
-   PASS SCREEN  (between players)
-═══════════════════════════════════ */
-#s-pass{background:var(--ink);align-items:center;justify-content:center}
-.pass-inner{display:flex;flex-direction:column;align-items:center;text-align:center;padding:40px 32px;gap:24px}
-.pass-avatar{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:28px;font-style:italic;font-weight:400;flex-shrink:0}
-.pass-label{font-size:13px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1.5px;font-weight:500}
-.pass-name{font-family:var(--fd);font-size:40px;font-style:italic;color:#fff;line-height:1;margin-top:6px}
-.pass-sub{font-size:14px;color:rgba(255,255,255,.35);margin-top:4px}
-.pass-btn{padding:15px 48px;background:#fff;color:var(--ink);border:none;border-radius:var(--r);font-family:var(--fd);font-size:17px;font-style:italic;cursor:pointer;transition:opacity .1s}
-.pass-btn:active{opacity:.8}
-
-/* ═══════════════════════════════════
-   CARD SCREEN  (show role)
-═══════════════════════════════════ */
+/* ═══ CARD SCREEN ═══ */
 #s-card{background:var(--ink)}
-.card-tb{display:flex;align-items:center;height:52px;padding:0 6px;border-bottom:1px solid rgba(255,255,255,.07)}
-.card-tb-prog{font-size:11px;color:rgba(255,255,255,.3);letter-spacing:1.5px;text-transform:uppercase;flex:1;text-align:center}
-.card-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 20px 12px}
+.card-top{height:52px;display:flex;align-items:center;justify-content:center;gap:10px;border-bottom:1px solid rgba(255,255,255,.07);padding:0 16px}
+.card-prog{font-size:11px;color:rgba(255,255,255,.35);letter-spacing:1.5px;text-transform:uppercase;flex-shrink:0}
+.card-pname{font-size:15px;font-weight:600;color:rgba(255,255,255,.7)}
+.card-mid{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+.crd{width:100%;max-width:300px;border-radius:18px;padding:28px 22px;text-align:center;cursor:pointer;border:1px solid rgba(255,255,255,.07)}
+.crd-lock{background:#1e1912;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:160px}
+.lock-ico{font-size:34px;margin-bottom:10px}
+.lock-lbl{color:rgba(255,255,255,.7);font-size:15px;font-weight:600;margin-bottom:3px}
+.lock-sub{color:rgba(255,255,255,.25);font-size:12px}
+.crd-open{background:var(--surf);border-color:var(--b1);display:none;flex-direction:column;align-items:center}
+.ctag{display:inline-block;padding:3px 10px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:14px}
+.ctag.c{background:var(--grnbg);color:var(--grn)}
+.ctag.i{background:var(--redbg);color:var(--red)}
+.cword{font-size:34px;font-weight:700;color:var(--ink);line-height:1;word-break:break-word}
+.cword.q{font-size:40px;letter-spacing:6px;color:var(--ink3)}
+.chint{margin-top:14px;width:100%;background:var(--goldbg);border:1px solid #d4a820;border-radius:8px;padding:8px 12px;display:flex;align-items:flex-start;gap:7px;text-align:left}
+.chint-ico{font-size:13px;flex-shrink:0;margin-top:1px}
+.chint-txt{font-size:12px;color:var(--gold);font-weight:500;line-height:1.4}
+.imps-band{margin:0 20px 8px;background:rgba(181,43,30,.13);border:1px solid rgba(181,43,30,.22);border-radius:10px;padding:12px 14px}
+.imps-t{font-size:12px;font-weight:500;color:rgba(255,255,255,.5);margin-bottom:8px}
+.imps-chips{display:flex;flex-wrap:wrap;gap:6px}
+.imps-chip{background:var(--red);color:#fff;padding:4px 11px;border-radius:100px;font-size:12px;font-weight:600}
 
-/* The card itself */
-.crd{width:100%;max-width:310px;aspect-ratio:3/2;border-radius:18px;cursor:pointer;position:relative;user-select:none}
-.crd-face{position:absolute;inset:0;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:22px 18px;text-align:center;transition:opacity .15s}
-
-/* Locked face */
-.crd-lock{background:#1e1912;border:1px solid rgba(255,255,255,.08)}
-.crd-lock-ico{font-size:36px;margin-bottom:10px}
-.crd-lock-lbl{color:rgba(255,255,255,.75);font-size:15px;font-weight:600;margin-bottom:4px}
-.crd-lock-sub{color:rgba(255,255,255,.28);font-size:12px}
-
-/* Role face — hidden until tap */
-.crd-role{background:var(--surf);border:1px solid var(--b1);opacity:0;pointer-events:none}
-.crd-role.shown{opacity:1;pointer-events:auto}
-.crd-lock.hidden{opacity:0;pointer-events:none}
-
-.crole-tag{display:inline-flex;align-items:center;padding:4px 11px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;margin-bottom:12px}
-.crole-tag.c{background:var(--grnbg);color:var(--grn)}
-.crole-tag.i{background:var(--redbg);color:var(--red)}
-.crole-tag.b{background:var(--b1);color:var(--ink3)}
-.cword{font-family:var(--fd);font-size:30px;font-style:italic;color:var(--ink);line-height:1.1;word-break:break-word;margin-bottom:5px}
-.csub{font-size:11px;color:var(--ink3);line-height:1.5}
-.ctag{margin-top:9px;padding:4px 13px;border-radius:100px;background:var(--redbg);color:var(--red);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
-.hintbox{margin-top:10px;width:100%;background:var(--goldbg);border:1px solid #d4a820;border-radius:8px;padding:8px 11px;display:flex;gap:7px;text-align:left}
-.hico{font-size:13px;flex-shrink:0;margin-top:1px}
-.htxt{font-size:11px;color:var(--gold);font-weight:600;line-height:1.45}
-
-.tap-hint{color:rgba(255,255,255,.22);font-size:12px;margin-top:16px;letter-spacing:.3px}
-
-/* impostor band */
-.imp-band{margin:0 16px 8px;background:rgba(181,43,30,.14);border:1px solid rgba(181,43,30,.25);border-radius:10px;padding:13px 15px}
-.imp-band-t{font-size:12px;font-weight:600;color:rgba(255,255,255,.55);margin-bottom:8px}
-.imp-chips{display:flex;flex-wrap:wrap;gap:6px}
-.imp-chip{background:var(--red);color:#fff;padding:4px 11px;border-radius:100px;font-size:12px;font-weight:600}
-
-/* ═══════════════════════════════════
-   GAME
-═══════════════════════════════════ */
+/* ═══ GAME ═══ */
 #s-game{background:var(--bg)}
-.gtb{display:flex;align-items:center;height:52px;padding:0 6px;background:var(--ink);border-bottom:1px solid rgba(255,255,255,.06)}
-.gtb-title{font-family:var(--fd);font-size:17px;font-style:italic;color:#fff;flex:1;text-align:center}
-.gtb .ib{color:rgba(255,255,255,.55)}
+.gtb{display:flex;align-items:center;height:52px;padding:0 8px;background:var(--ink)}
+.gtb-title{font-size:16px;font-weight:600;color:#fff;flex:1;text-align:center}
+.gtb .ib{color:rgba(255,255,255,.5)}
 .gtb .ib:active{background:rgba(255,255,255,.08)}
-#wbanner{background:var(--ink);padding:20px 20px 26px;text-align:center}
-.wb-l{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.28);margin-bottom:5px}
-.wb-w{font-family:var(--fd);font-size:42px;font-style:italic;color:#fff;letter-spacing:-1px;line-height:1}
-.elim-l{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--ink3);font-weight:600;padding:14px 16px 6px}
-.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 16px 16px}
-.pcrd{background:var(--surf);border:1px solid var(--b1);border-radius:var(--r);padding:16px 10px;text-align:center;cursor:pointer;position:relative;transition:all .12s;user-select:none;-webkit-user-select:none}
-.pcrd:active{transform:scale(.95)}
-.pcrd.out{opacity:.25;border-style:dashed}
-.pav{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:17px;font-style:italic;margin:0 auto 7px}
-.pnm{font-size:13px;font-weight:500;color:var(--ink);line-height:1.2}
-.obdg{position:absolute;top:-6px;right:-6px;width:19px;height:19px;background:var(--red);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center}
 
-/* ═══════════════════════════════════
-   RESULTS
-═══════════════════════════════════ */
+/* round indicator */
+.round-bar{background:var(--surf);border-bottom:1px solid var(--b1);padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
+.round-lbl{font-size:12px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:1px}
+.round-num{font-size:14px;font-weight:700;color:var(--ink)}
+
+/* vote hint */
+.vote-hint{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--ink3);font-weight:600;padding:12px 16px 6px}
+
+/* player grid */
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 16px 12px}
+.pcrd{background:var(--surf);border:1.5px solid var(--b1);border-radius:var(--r);padding:16px 10px;text-align:center;cursor:pointer;position:relative;user-select:none;transition:all .12s}
+.pcrd:active{transform:scale(.95)}
+.pcrd.out{opacity:.2;border-style:dashed;pointer-events:none}
+.pcrd.voted{border-color:var(--red);background:var(--redbg)}
+.pav{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;margin:0 auto 7px}
+.pnm{font-size:13px;font-weight:600;color:var(--ink)}
+.pvote{position:absolute;top:-7px;right:-7px;min-width:20px;height:20px;background:var(--red);color:#fff;border-radius:100px;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 4px}
+
+/* elimination confirm panel */
+.elim-panel{margin:0 16px 12px;background:var(--redbg);border:1.5px solid var(--red);border-radius:var(--r);padding:14px 16px}
+.elim-panel-t{font-size:13px;font-weight:600;color:var(--red);margin-bottom:10px}
+.elim-chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}
+.elim-chip{background:var(--red);color:#fff;padding:5px 12px;border-radius:100px;font-size:13px;font-weight:600}
+.elim-btns{display:flex;gap:8px}
+.elim-yes{flex:1;padding:10px;background:var(--red);color:#fff;border:none;border-radius:8px;font-family:var(--fu);font-size:13px;font-weight:600;cursor:pointer}
+.elim-no{flex:1;padding:10px;background:transparent;color:var(--ink2);border:1.5px solid var(--b2);border-radius:8px;font-family:var(--fu);font-size:13px;font-weight:500;cursor:pointer}
+
+/* ═══ RESULTS ═══ */
 .res-hero{padding:36px 20px 20px;text-align:center;border-bottom:1px solid var(--b1);background:var(--surf)}
-.res-emo{font-size:56px;display:block;margin-bottom:10px}
-.res-title{font-family:var(--fd);font-size:30px;font-style:italic;color:var(--ink);margin-bottom:4px}
+.res-emo{font-size:54px;display:block;margin-bottom:10px}
+.res-title{font-size:26px;font-weight:700;color:var(--ink);margin-bottom:4px}
 .res-sub{font-size:13px;color:var(--ink2)}
 .wrev{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:14px 16px 0}
-.wc{border-radius:var(--r);padding:13px 11px;text-align:center}
+.wc{border-radius:var(--r);padding:12px;text-align:center}
 .wc.ck{background:var(--grnbg)}
 .wc.ik{background:var(--goldbg)}
-.wc-l{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
+.wc-l{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
 .wc.ck .wc-l{color:var(--grn)}
 .wc.ik .wc-l{color:var(--gold)}
-.wc-w{font-family:var(--fd);font-size:18px;font-style:italic}
+.wc-w{font-size:17px;font-weight:700}
 .wc.ck .wc-w{color:var(--grn)}
-.wc.ik .wc-w{color:var(--gold);font-family:var(--fu);font-size:11px;font-style:normal;font-weight:500;line-height:1.4;margin-top:2px}
+.wc.ik .wc-w{color:var(--gold);font-size:11px;font-weight:500;line-height:1.4;margin-top:2px}
 .rrows{padding:10px 16px 4px;display:flex;flex-direction:column;gap:7px}
-.rrow{display:flex;align-items:center;gap:11px;background:var(--surf);border:1px solid var(--b1);border-radius:var(--r);padding:12px 13px}
-.rav{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:15px;font-style:italic;flex-shrink:0}
-.rnm{font-size:14px;font-weight:500}
-.relim{color:var(--red);font-size:11px;font-weight:600;margin-left:4px}
-.rrl{font-size:11px;color:var(--ink3);margin-top:2px}
-.rico{font-size:18px;flex-shrink:0}
+.rrow{display:flex;align-items:center;gap:10px;background:var(--surf);border:1px solid var(--b1);border-radius:var(--r);padding:11px 13px}
+.rav{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0}
+.rnm{font-size:14px;font-weight:600}
+.relim{color:var(--red);font-size:11px;font-weight:500;margin-left:3px}
+.rrl{font-size:11px;color:var(--ink3);margin-top:1px}
+.rico{font-size:17px;flex-shrink:0;margin-left:auto}
 .sp{height:16px}
 </style>
 </head>
 <body>
 
-<!-- ── SPLASH ── -->
+<!-- SPLASH -->
 <div id="s-splash" class="screen active">
-  <div class="sp-inner">
-    <div class="sp-flag">🇩🇿</div>
-    <h1 class="sp-title">Imposteur</h1>
-    <p class="sp-sub">100% Dziri</p>
-    <div class="sp-btns">
+  <div class="spl-in">
+    <div class="spl-flag">🇩🇿</div>
+    <h1 class="spl-title">Imposteur</h1>
+    <p class="spl-sub">100% Dziri</p>
+    <div class="spl-btns">
       <button class="bf" onclick="goTo('s-setup')">Play</button>
       <button class="bg" onclick="goTo('s-rules')">How to play</button>
     </div>
   </div>
-  <p class="sp-foot">Made for Algerians 🇩🇿</p>
+  <p class="spl-foot">Made for Algerians 🇩🇿</p>
 </div>
 
-<!-- ── RULES ── -->
+<!-- RULES -->
 <div id="s-rules" class="screen">
   <div class="tb">
     <button class="ib" onclick="goTo('s-splash')">←</button>
@@ -243,34 +208,29 @@ html,body{font-family:var(--fu);background:var(--bg);color:var(--ink);min-height
     <span style="width:36px"></span>
   </div>
   <div class="body">
-    <div class="rule-blk">
-      <div class="rule-n">01 — Roles</div>
-      <h3 class="rule-h">Three roles, one truth</h3>
-      <div class="role-row"><span class="pill pc">Citizen</span><span class="role-d">Sees the secret word — describe it without giving it away</span></div>
-      <div class="role-row"><span class="pill pi">Impostor</span><span class="role-d">No word — just a vague hint. Bluff and survive.</span></div>
-      <div class="role-row"><span class="pill pb">Blank</span><span class="role-d">Nothing at all — listen, guess, don't get caught</span></div>
+    <div class="rblk">
+      <div class="rn">Roles</div>
+      <h3 class="rh">Two roles, one secret</h3>
+      <div class="ri"><span class="pill pc">Citizen</span><span class="rd">Sees the secret word — describe it without giving it away</span></div>
+      <div class="ri"><span class="pill pi">Impostor</span><span class="rd">No word — just a vague hint if hints are on. Blend in and survive.</span></div>
     </div>
-    <div class="rule-blk">
-      <div class="rule-n">02 — Each Round</div>
-      <h3 class="rule-h">Talk, vote, eliminate</h3>
-      <div class="rule-steps">
-        <div class="rule-step"><span class="dot"></span>Pass the phone — each player peeks their card privately</div>
-        <div class="rule-step"><span class="dot"></span>Going around, each player says <strong>one word</strong> to describe their word</div>
-        <div class="rule-step"><span class="dot"></span>Discuss — who seems sus?</div>
-        <div class="rule-step"><span class="dot"></span>Vote — most votes gets eliminated</div>
-        <div class="rule-step"><span class="dot"></span>Last impostor: if they guess the citizen word — they still win</div>
+    <div class="rblk">
+      <div class="rn">Each round</div>
+      <h3 class="rh">Talk, vote, eliminate</h3>
+      <div class="rsteps">
+        <div class="rstep"><span class="dot"></span>Each player sees their card privately</div>
+        <div class="rstep"><span class="dot"></span>Everyone says one word to describe their word</div>
+        <div class="rstep"><span class="dot"></span>Tap the players you suspect to vote</div>
+        <div class="rstep"><span class="dot"></span>Confirm — most votes gets eliminated</div>
+        <div class="rstep"><span class="dot"></span>Repeat until all impostors are found — or they outnumber citizens</div>
+        <div class="rstep"><span class="dot"></span>Last impostor: if they guess the citizen word — they win</div>
       </div>
-    </div>
-    <div class="rule-blk">
-      <div class="rule-n">03 — Hints</div>
-      <h3 class="rule-h">The hint system</h3>
-      <p class="rule-p">The impostor has <strong>no word</strong>. With hints ON, they see one vague clue to help them bluff. With hints OFF — total darkness. Citizens never see hints.</p>
     </div>
   </div>
   <div class="bar"><button class="bf" onclick="goTo('s-setup')">Got it</button></div>
 </div>
 
-<!-- ── SETUP ── -->
+<!-- SETUP -->
 <div id="s-setup" class="screen">
   <div class="tb">
     <button class="ib" onclick="goTo('s-splash')">←</button>
@@ -300,16 +260,6 @@ html,body{font-family:var(--fu);background:var(--bg);color:var(--ink);min-height
     </div>
     <div class="sblk">
       <div class="srow">
-        <span class="slbl">Blank card</span>
-        <div class="stepper">
-          <button class="stb" onclick="step('blanks',-1)">−</button>
-          <span class="stv" id="blanks-val">0</span>
-          <button class="stb" onclick="step('blanks',1)">+</button>
-        </div>
-      </div>
-    </div>
-    <div class="sblk">
-      <div class="srow">
         <div>
           <span class="slbl">Impostor hint</span>
           <p class="ssub" id="hint-sub">On — impostor sees a vague clue</p>
@@ -318,73 +268,76 @@ html,body{font-family:var(--fu);background:var(--bg);color:var(--ink);min-height
       </div>
     </div>
     <div class="sblk">
-      <span class="slbl">Categories</span>
+      <div class="srow" style="margin-bottom:0">
+        <span class="slbl">Categories</span>
+        <button class="cat on" id="sel-all-btn" onclick="toggleAll()" style="font-size:11px;padding:5px 11px">All</button>
+      </div>
       <div class="cats" id="cats"></div>
     </div>
     <div class="sblk">
-      <span class="slbl">Player names <span class="opt">optional</span></span>
+      <span class="slbl">Names <span class="opt">optional</span></span>
       <div id="nlist"></div>
     </div>
-    <div id="emsg" class="emsg" style="display:none">Too many impostors + blanks for this player count</div>
+    <div id="emsg" class="emsg" style="display:none">Too many impostors for this player count</div>
   </div>
   <div class="bar"><button class="bf" id="deal-btn" onclick="startGame()">Deal cards</button></div>
 </div>
 
-<!-- ── PASS SCREEN — shown between players ── -->
-<div id="s-pass" class="screen">
-  <div class="pass-inner">
-    <div class="pass-avatar" id="pass-av"></div>
-    <div>
-      <p class="pass-label">Pass the phone to</p>
-      <p class="pass-name" id="pass-name">—</p>
-      <p class="pass-sub">Don't let anyone else see</p>
-    </div>
-    <button class="pass-btn" onclick="showCard()">I'm ready 👁</button>
-  </div>
-</div>
-
-<!-- ── CARD SCREEN — private role reveal ── -->
+<!-- CARD -->
 <div id="s-card" class="screen">
-  <div class="card-tb">
-    <span class="card-tb-prog" id="card-prog">1 / 5</span>
+  <div class="card-top">
+    <span class="card-prog" id="card-prog">1 / 5</span>
+    <span class="card-pname" id="card-pname"></span>
   </div>
-  <div class="card-area">
-    <div class="crd" onclick="tapCard()">
-      <div class="crd-face crd-lock" id="crd-lock">
-        <div class="crd-lock-ico">🔒</div>
-        <p class="crd-lock-lbl">Tap to reveal</p>
-        <p class="crd-lock-sub">Make sure nobody else is watching</p>
-      </div>
-      <div class="crd-face crd-role" id="crd-role"></div>
+  <div class="card-mid">
+    <div class="crd crd-lock" id="crd-lock" onclick="tapCard()">
+      <div class="lock-ico">🔒</div>
+      <p class="lock-lbl">Tap to reveal</p>
+      <p class="lock-sub">Only you should see this</p>
     </div>
-    <p class="tap-hint" id="tap-hint">Tap the card to see your role</p>
+    <div class="crd crd-open" id="crd-open"></div>
   </div>
-  <div id="imp-band" style="display:none">
-    <div class="imp-band">
-      <p class="imp-band-t">🕵️ The impostors know each other</p>
-      <div class="imp-chips" id="imp-chips"></div>
+  <div id="imps-band" style="display:none">
+    <div class="imps-band">
+      <p class="imps-t">🕵️ Fellow impostors</p>
+      <div class="imps-chips" id="imps-chips"></div>
     </div>
   </div>
   <div class="bar tr">
-    <button class="bf" id="btn-next" onclick="nextPlayer()" style="display:none">Next player →</button>
-    <button class="bf" id="btn-go" onclick="goTo('s-game')" style="display:none">Let's go 🎮</button>
+    <button class="bf" id="btn-action" style="display:none"></button>
   </div>
 </div>
 
-<!-- ── GAME ── -->
+<!-- GAME -->
 <div id="s-game" class="screen">
   <div class="gtb">
     <button class="ib" onclick="confirmQuit()">✕</button>
     <span class="gtb-title">Imposteur</span>
-    <button class="ib" onclick="goTo('s-results')">🔍</button>
+    <button class="ib" onclick="goTo('s-results')">—</button>
   </div>
-  <div id="wbanner"></div>
-  <p class="elim-l">Tap to mark eliminated</p>
+  <div class="round-bar">
+    <span class="round-lbl">Round</span>
+    <span class="round-num" id="round-num">1</span>
+  </div>
+  <p class="vote-hint" id="vote-hint">Tap players to vote</p>
   <div class="pgrid" id="pgrid"></div>
-  <div class="bar"><button class="bd" onclick="goTo('s-results')">Reveal roles 🎭</button></div>
+  <div id="elim-panel" style="display:none">
+    <div class="elim-panel">
+      <p class="elim-panel-t" id="elim-panel-t">Eliminate the most voted?</p>
+      <div class="elim-chips" id="elim-chips"></div>
+      <div class="elim-btns">
+        <button class="elim-yes" onclick="confirmElim()">Eliminate</button>
+        <button class="elim-no" onclick="clearVotes()">Clear votes</button>
+      </div>
+    </div>
+  </div>
+  <div class="bar">
+    <button class="bf" id="next-round-btn" onclick="nextRound()" style="display:none">Next round</button>
+    <button class="bd" onclick="goTo('s-results')">End game — reveal roles 🎭</button>
+  </div>
 </div>
 
-<!-- ── RESULTS ── -->
+<!-- RESULTS -->
 <div id="s-results" class="screen">
   <div class="tb">
     <button class="ib" onclick="goTo('s-game')">←</button>
@@ -394,26 +347,18 @@ html,body{font-family:var(--fu);background:var(--bg);color:var(--ink);min-height
   <div id="res-inner"></div>
   <div class="bar row">
     <button class="bo" onclick="goTo('s-setup')">New game</button>
-    <button class="bf" onclick="rematch()">Rematch 🔄</button>
+    <button class="bf" style="flex:1.4" onclick="rematch()">Rematch 🔄</button>
   </div>
 </div>
 
 <script>
-// ═══════════════════════════════════════════
-//  CATEGORIES
-// ═══════════════════════════════════════════
 var CATS={
   makla:"🍲 Makla",blayet:"📍 Blayet",darja:"🗣️ Darja",
-  "3adat":"🎭 3adat","machahir":"⭐ Machahir",derb:"🛵 Derb",
+  "3adat":"🎭 3adat",machahir:"⭐ Machahir",derb:"🛵 Derb",
   drassa:"📚 Mdrassa","3a2ila":"👪 3a2ila",custom:"✏️ Custom"
 };
 
-// ═══════════════════════════════════════════
-//  WORD PAIRS — 100% ALGERIAN
-//  c = citizen word   h = impostor hint
-// ═══════════════════════════════════════════
 var PAIRS=[
-  // MAKLA
   {c:"kesra",h:"bread made at home, served hot with everything",cat:"makla"},
   {c:"chakhchoukha",h:"crumbled pasta dish, classic at weddings",cat:"makla"},
   {c:"mhajeb",h:"folded layered flatbread, Algerian breakfast",cat:"makla"},
@@ -431,7 +376,6 @@ var PAIRS=[
   {c:"3asida",h:"thick grain porridge, traditional cold morning meal",cat:"makla"},
   {c:"mchi",h:"stuffed vegetables with meat, Sunday dish",cat:"makla"},
   {c:"matloua",h:"round bread cooked in a pan or oven",cat:"makla"},
-  // BLAYET
   {c:"casbah",h:"historic old quarter, narrow winding streets",cat:"blayet"},
   {c:"7ammam",h:"where Algerians go to wash, traditional ritual",cat:"blayet"},
   {c:"7anut",h:"corner shop, owner knows the whole neighbourhood",cat:"blayet"},
@@ -444,7 +388,6 @@ var PAIRS=[
   {c:"wilaya",h:"government office nobody enjoys visiting",cat:"blayet"},
   {c:"zawiya",h:"religious and community gathering place",cat:"blayet"},
   {c:"douar",h:"rural village, where the family roots are",cat:"blayet"},
-  // DARJA
   {c:"labas",h:"how you reply when asked how you are",cat:"darja"},
   {c:"sa7bi",h:"what you call your closest friend",cat:"darja"},
   {c:"7chouma",h:"when someone does something embarrassing",cat:"darja"},
@@ -453,7 +396,7 @@ var PAIRS=[
   {c:"tmara",h:"feeling exhausted and done with it all",cat:"darja"},
   {c:"ga3",h:"means all or everything, no exception",cat:"darja"},
   {c:"gach",h:"the police, feds",cat:"darja"},
-  {c:"jaw",h:"the vibe or atmosphere of a moment or place",cat:"darja"},
+  {c:"jaw",h:"the vibe or atmosphere of a moment",cat:"darja"},
   {c:"za7ri",h:"when luck is on your side",cat:"darja"},
   {c:"mra7",h:"feeling happy and at ease",cat:"darja"},
   {c:"dima",h:"always, without exception",cat:"darja"},
@@ -462,22 +405,20 @@ var PAIRS=[
   {c:"3lach",h:"asking why",cat:"darja"},
   {c:"yezzi",h:"telling someone to stop, that's enough",cat:"darja"},
   {c:"bzaf",h:"a lot, in great quantity",cat:"darja"},
-  {c:"rahi",h:"she is / I am — presence pronoun in darja",cat:"darja"},
-  // 3ADAT
-  {c:"zerda",h:"communal feast, the whole neighbourhood is invited",cat:"3adat"},
-  {c:"3arss",h:"Algerian wedding, minimum three days of celebration",cat:"3adat"},
+  {c:"rahi",h:"she is / I am — presence word in darja",cat:"darja"},
+  {c:"zerda",h:"communal feast, the whole neighbourhood invited",cat:"3adat"},
+  {c:"3arss",h:"Algerian wedding, minimum three days",cat:"3adat"},
   {c:"raï",h:"the most iconic Algerian music genre",cat:"3adat"},
-  {c:"gasba",h:"traditional wind instrument from southern Algeria",cat:"3adat"},
+  {c:"gasba",h:"traditional wind instrument, southern Algeria",cat:"3adat"},
   {c:"burnous",h:"long traditional robe worn by Algerian men",cat:"3adat"},
   {c:"7ayek",h:"white traditional fabric worn by Algerian women",cat:"3adat"},
   {c:"7enna",h:"the night before the wedding, body art traditions",cat:"3adat"},
   {c:"derbouqa",h:"traditional Algerian percussion instrument",cat:"3adat"},
-  {c:"chaoui",h:"Amazigh people of eastern Algeria and their culture",cat:"3adat"},
+  {c:"chaoui",h:"Amazigh people of eastern Algeria",cat:"3adat"},
   {c:"mouloud",h:"Islamic celebration, sweets and children",cat:"3adat"},
   {c:"sebiba",h:"traditional festival in Djanet, deep south Algeria",cat:"3adat"},
   {c:"tifinagh",h:"ancient writing system, Amazigh identity",cat:"3adat"},
   {c:"chechia",h:"traditional Algerian head covering for men",cat:"3adat"},
-  // MACHAHIR
   {c:"Khaled",h:"king of raï, from Oran",cat:"machahir"},
   {c:"Cheb Mami",h:"prince of raï, powerful voice from Oran",cat:"machahir"},
   {c:"Cheikha Rimitti",h:"founding mother of Algerian raï",cat:"machahir"},
@@ -508,17 +449,15 @@ var PAIRS=[
   {c:"Leïla Bekhti",h:"acclaimed Franco-Algerian actress",cat:"machahir"},
   {c:"Hassiba Boulmerka",h:"Algerian Olympic athletics champion",cat:"machahir"},
   {c:"Noureddine Morceli",h:"world record holder in middle-distance running",cat:"machahir"},
-  // DERB
   {c:"squali",h:"describing someone by their social class",cat:"derb"},
   {c:"7arraga",h:"someone who leaves Algeria for a better life",cat:"derb"},
   {c:"système D",h:"finding a workaround, the Algerian way",cat:"derb"},
-  {c:"frima",h:"someone who loves to show off and be seen",cat:"derb"},
+  {c:"frima",h:"someone who loves to show off",cat:"derb"},
   {c:"flous",h:"talking about money",cat:"derb"},
   {c:"baroud",h:"a fight or heated confrontation",cat:"derb"},
   {c:"sa7eb el 7anut",h:"the corner shop guy who knows everyone",cat:"derb"},
   {c:"samsara",h:"the middleman who arranges everything",cat:"derb"},
   {c:"3ich",h:"living in the moment, enjoying life",cat:"derb"},
-  // DRASSA
   {c:"bzaza",h:"the one who cheats during the exam",cat:"drassa"},
   {c:"concours",h:"national test that decides your future in Algeria",cat:"drassa"},
   {c:"BAC",h:"final high school exam in Algeria",cat:"drassa"},
@@ -526,7 +465,6 @@ var PAIRS=[
   {c:"fiche",h:"written punishment note given at school",cat:"drassa"},
   {c:"tableau",h:"what the teacher writes on in class",cat:"drassa"},
   {c:"chef de classe",h:"the elected class representative",cat:"drassa"},
-  // 3A2ILA
   {c:"yemma",h:"the most important person in the house",cat:"3a2ila"},
   {c:"baba",h:"the father, head of the family",cat:"3a2ila"},
   {c:"3ammi",h:"your father's or mother's brother",cat:"3a2ila"},
@@ -535,25 +473,19 @@ var PAIRS=[
   {c:"3ressa",h:"the woman of the house",cat:"3a2ila"},
   {c:"drari",h:"the young kids running everywhere",cat:"3a2ila"},
   {c:"jira",h:"the neighbour lady who knows everything",cat:"3a2ila"},
-  // CUSTOM — ADD YOUR WORDS BELOW
-  // {c:"YOUR WORD", h:"a vague hint for the impostor", cat:"custom"},
+  // ADD YOUR WORDS: {c:"WORD", h:"vague hint", cat:"custom"},
 ];
 
-// ═══════════════════════════════════════════
-//  STATE
-// ═══════════════════════════════════════════
-var G={players:5,imps:1,blanks:0,hints:true,names:[],cats:['makla'],game:null};
-var revIdx=0, cardShown=false;
+// ── STATE ──
+var G={players:5,imps:1,names:[],hints:true,cats:['makla'],game:null};
+var revIdx=0,cardRevealed=false;
 var COLORS=[
   ['#1b4530','#dff0e8'],['#b52b1e','#fce9e7'],['#b8860b','#fdf4dc'],
   ['#1a3a7a','#dce8ff'],['#6a1a6a','#f0ddff'],['#2a6a4a','#d8f4e8'],
-  ['#7a3a10','#fde8d8'],['#1a4a60','#d8f0fa'],['#503010','#f8e8c8'],
-  ['#3a1a5a','#eeddff'],['#1a5a4a','#d8f8f0'],['#5a2a10','#fceadc']
+  ['#7a3a10','#fde8d8'],['#1a4a60','#d8f0fa'],['#3a1a5a','#eeddff'],
+  ['#503010','#f8e8c8'],['#1a5a4a','#d8f8f0'],['#5a2a10','#fceadc']
 ];
 
-// ═══════════════════════════════════════════
-//  NAVIGATION
-// ═══════════════════════════════════════════
 function goTo(id){
   document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
   document.getElementById(id).classList.add('active');
@@ -562,11 +494,9 @@ function goTo(id){
   if(id==='s-results') buildResults();
 }
 
-// ═══════════════════════════════════════════
-//  SETUP
-// ═══════════════════════════════════════════
+// ── SETUP ──
 function step(k,d){
-  var lim={players:[3,12],imposters:[1,4],blanks:[0,2]};
+  var lim={players:[3,12],imposters:[1,4]};
   var key=k==='imposters'?'imps':k;
   G[key]=Math.max(lim[k][0],Math.min(lim[k][1],G[key]+d));
   document.getElementById(k+'-val').textContent=G[key];
@@ -575,14 +505,26 @@ function step(k,d){
 }
 function toggleHints(){
   G.hints=!G.hints;
-  var t=document.getElementById('htog'),s=document.getElementById('hint-sub');
-  t.classList.toggle('on',G.hints);
-  s.textContent=G.hints?'On — impostor sees a vague clue':'Off — impostor is completely blind';
+  document.getElementById('htog').classList.toggle('on',G.hints);
+  document.getElementById('hint-sub').textContent=G.hints?'On — impostor sees a vague clue':'Off — impostor is completely blind';
+}
+var ALL_CATS=Object.keys(CATS);
+function syncAllBtn(){
+  var all=ALL_CATS.filter(function(k){return k!=='custom'||PAIRS.some(function(p){return p.cat==='custom';});});
+  var allOn=all.every(function(k){return G.cats.indexOf(k)>=0;});
+  var btn=document.getElementById('sel-all-btn');
+  if(btn){btn.textContent=allOn?'All ✓':'All';btn.classList.toggle('on',allOn);}
+}
+function toggleAll(){
+  var avail=ALL_CATS.filter(function(k){return k!=='custom'||PAIRS.some(function(p){return p.cat==='custom';});});
+  var allOn=avail.every(function(k){return G.cats.indexOf(k)>=0;});
+  G.cats=allOn?[avail[0]]:avail.slice();
+  buildCats();
 }
 function buildCats(){
-  var el=document.getElementById('cats'); el.innerHTML='';
-  Object.keys(CATS).forEach(function(k){
-    if(k==='custom'&&!PAIRS.some(function(p){return p.cat==='custom';})) return;
+  var avail=ALL_CATS.filter(function(k){return k!=='custom'||PAIRS.some(function(p){return p.cat==='custom';});});
+  var el=document.getElementById('cats');el.innerHTML='';
+  avail.forEach(function(k){
     var b=document.createElement('button');
     b.className='cat'+(G.cats.indexOf(k)>=0?' on':'');
     b.textContent=CATS[k];
@@ -590,176 +532,204 @@ function buildCats(){
       var i=G.cats.indexOf(k);
       if(i>=0){if(G.cats.length===1)return;G.cats.splice(i,1);b.classList.remove('on');}
       else{G.cats.push(k);b.classList.add('on');}
+      syncAllBtn();
     };
     el.appendChild(b);
   });
+  syncAllBtn();
 }
 function buildNames(){
   var n=G.players;
-  while(G.names.length<n) G.names.push('');
+  while(G.names.length<n)G.names.push('');
   G.names=G.names.slice(0,n);
-  var el=document.getElementById('nlist'); el.innerHTML='';
+  var el=document.getElementById('nlist');el.innerHTML='';
   for(var i=0;i<n;i++){
     var fg=COLORS[i%COLORS.length][0],bg=COLORS[i%COLORS.length][1];
-    var row=document.createElement('div'); row.className='nrow';
+    var row=document.createElement('div');row.className='nrow';
     row.innerHTML='<div class="nnum" style="background:'+bg+';color:'+fg+'">'+(i+1)+'</div>'
       +'<input class="ninp" type="text" maxlength="16" placeholder="Player '+(i+1)+'" value="'+G.names[i]+'" oninput="G.names['+i+']=this.value"/>';
     el.appendChild(row);
   }
 }
 function validate(){
-  var ok=(G.imps+G.blanks)<G.players;
+  var ok=G.imps<G.players;
   document.getElementById('emsg').style.display=ok?'none':'block';
   document.getElementById('deal-btn').disabled=!ok;
 }
 
-// ═══════════════════════════════════════════
-//  START
-// ═══════════════════════════════════════════
+// ── START ──
 function startGame(){
   var pool=PAIRS.filter(function(p){return G.cats.indexOf(p.cat)>=0;});
   if(!pool.length){alert('No words in selected categories');return;}
   var pair=pool[Math.floor(Math.random()*pool.length)];
   var roles=[];
-  for(var i=0;i<G.imps;i++) roles.push('i');
-  for(var i=0;i<G.blanks;i++) roles.push('b');
-  while(roles.length<G.players) roles.push('c');
+  for(var i=0;i<G.imps;i++)roles.push('i');
+  while(roles.length<G.players)roles.push('c');
   shuffle(roles);
   G.game={
     players:roles.map(function(role,i){
       var nm=(G.names[i]||'').trim()||('Player '+(i+1));
-      return{name:nm,role:role,word:role==='c'?pair.c:null,hint:pair.h||null,
-             color:COLORS[i%COLORS.length],out:false,
+      return{name:nm,role:role,word:role==='c'?pair.c:null,
+             hint:pair.h||null,color:COLORS[i%COLORS.length],
+             out:false,votes:0,
              init:nm.charAt(0).toUpperCase()||(i+1)+''};
     }),
-    word:pair.c, hint:pair.h||null
+    word:pair.c,hint:pair.h||null,round:1
   };
   revIdx=0;
-  showPass(0);
+  openCard(0);
 }
 
-// ═══════════════════════════════════════════
-//  PASS SCREEN — shown between every player
-// ═══════════════════════════════════════════
-function showPass(idx){
+// ── CARD FLOW ──
+function openCard(idx){
   var p=G.game.players[idx];
-  var fg=p.color[0], bg=p.color[1];
-  document.getElementById('pass-av').style.background=bg;
-  document.getElementById('pass-av').style.color=fg;
-  document.getElementById('pass-av').textContent=p.init;
-  document.getElementById('pass-name').textContent=p.name;
-  goTo('s-pass');
-}
-
-// called when player clicks "I'm ready"
-function showCard(){
-  var p=G.game.players[revIdx];
-  var total=G.game.players.length;
-  cardShown=false;
-
-  // reset card to locked state
-  document.getElementById('crd-lock').classList.remove('hidden');
-  document.getElementById('crd-role').classList.remove('shown');
-  document.getElementById('crd-role').innerHTML='';
-  document.getElementById('tap-hint').style.display='block';
-  document.getElementById('btn-next').style.display='none';
-  document.getElementById('btn-go').style.display='none';
-  document.getElementById('imp-band').style.display='none';
-  document.getElementById('card-prog').textContent=(revIdx+1)+' / '+total;
-
+  cardRevealed=false;
+  document.getElementById('card-prog').textContent=(idx+1)+' / '+G.game.players.length;
+  document.getElementById('card-pname').textContent=p.name;
+  document.getElementById('crd-lock').style.display='flex';
+  document.getElementById('crd-open').style.display='none';
+  document.getElementById('crd-open').innerHTML='';
+  document.getElementById('imps-band').style.display='none';
+  document.getElementById('btn-action').style.display='none';
   goTo('s-card');
 }
 
 function tapCard(){
-  if(cardShown) return;
-  cardShown=true;
-
+  if(cardRevealed)return;
+  cardRevealed=true;
   var p=G.game.players[revIdx];
-  document.getElementById('tap-hint').style.display='none';
-
-  // build role face content
-  var hasHint=G.hints&&p.role==='i'&&p.hint;
-  var hintHTML=hasHint
-    ?'<div class="hintbox"><span class="hico">💡</span><span class="htxt">'+p.hint+'</span></div>'
-    :(p.role==='i'?'<div class="csub" style="margin-top:8px">Listen carefully and bluff!</div>':'');
-
   var html='';
   if(p.role==='c'){
-    html='<span class="crole-tag c">Citizen</span>'
-        +'<div class="cword">'+p.word+'</div>'
-        +'<div class="csub">Describe this word without giving it away</div>';
-  } else if(p.role==='i'){
-    html='<span class="crole-tag i">Impostor 🕵️</span>'
-        +'<div class="cword" style="color:var(--ink3);font-size:38px;letter-spacing:5px">???</div>'
-        +'<div class="ctag">No word — guess and bluff</div>'
-        +hintHTML;
+    html='<span class="ctag c">Citizen</span><div class="cword">'+p.word+'</div>';
   } else {
-    html='<span class="crole-tag b">Blank</span>'
-        +'<div class="cword" style="color:var(--ink3);font-size:38px;letter-spacing:5px">???</div>'
-        +'<div class="csub">No clue — listen and figure it out</div>';
+    var hasHint=G.hints&&p.hint;
+    html='<span class="ctag i">Impostor</span><div class="cword q">???</div>'
+      +(hasHint?'<div class="chint"><span class="chint-ico">💡</span><span class="chint-txt">'+p.hint+'</span></div>':'');
   }
-
-  document.getElementById('crd-role').innerHTML=html;
-
-  // animate: lock fades out, role fades in
-  document.getElementById('crd-lock').classList.add('hidden');
-  document.getElementById('crd-role').classList.add('shown');
+  var open=document.getElementById('crd-open');
+  open.innerHTML=html;
+  document.getElementById('crd-lock').style.display='none';
+  open.style.display='flex';
 
   var last=(revIdx===G.game.players.length-1);
   if(last){
-    // show impostor band if multiple impostors
-    var imps=G.game.players.filter(function(p){return p.role==='i';});
+    var imps=G.game.players.filter(function(x){return x.role==='i';});
     if(imps.length>1){
-      document.getElementById('imp-chips').innerHTML=
-        imps.map(function(u){return '<span class="imp-chip">'+u.name+'</span>';}).join('');
-      document.getElementById('imp-band').style.display='block';
+      document.getElementById('imps-chips').innerHTML=imps.map(function(u){return '<span class="imps-chip">'+u.name+'</span>';}).join('');
+      document.getElementById('imps-band').style.display='block';
     }
-    document.getElementById('btn-go').style.display='block';
+  }
+  var btn=document.getElementById('btn-action');
+  btn.style.display='block';
+  if(last){
+    btn.textContent="Let's go 🎮";
+    btn.onclick=function(){goTo('s-game');};
   } else {
-    document.getElementById('btn-next').style.display='block';
+    btn.textContent='Next player →';
+    btn.onclick=function(){revIdx++;openCard(revIdx);};
   }
 }
 
-// "Next player" button — go to pass screen first
-function nextPlayer(){
-  revIdx++;
-  showPass(revIdx);
-}
-
-// ═══════════════════════════════════════════
-//  GAME SCREEN
-// ═══════════════════════════════════════════
+// ── GAME — VOTING ──
 function buildGame(){
-  document.getElementById('wbanner').innerHTML=
-    '<div class="wb-l">Secret word</div><div class="wb-w">'+G.game.word+'</div>';
+  document.getElementById('round-num').textContent=G.game.round;
+  // reset votes each time we come to game screen fresh
+  G.game.players.forEach(function(p){p.votes=0;});
+  document.getElementById('elim-panel').style.display='none';
+  document.getElementById('next-round-btn').style.display='none';
+  document.getElementById('vote-hint').textContent='Tap players to vote';
   renderGrid();
 }
+
 function renderGrid(){
-  var g=document.getElementById('pgrid'); g.innerHTML='';
+  var g=document.getElementById('pgrid');g.innerHTML='';
+  var active=G.game.players.filter(function(p){return !p.out;});
   G.game.players.forEach(function(p,i){
+    if(p.out)return; // don't show eliminated
     var d=document.createElement('div');
-    d.className='pcrd'+(p.out?' out':'');
-    d.onclick=(function(idx){return function(){G.game.players[idx].out=!G.game.players[idx].out;renderGrid();};})(i);
-    d.innerHTML=(p.out?'<div class="obdg">✕</div>':'')
+    d.className='pcrd'+(p.votes>0?' voted':'');
+    d.onclick=(function(idx){return function(){castVote(idx);};})(i);
+    d.innerHTML=(p.votes>0?'<div class="pvote">'+p.votes+'</div>':'')
       +'<div class="pav" style="background:'+p.color[1]+';color:'+p.color[0]+'">'+p.init+'</div>'
       +'<div class="pnm">'+p.name+'</div>';
     g.appendChild(d);
   });
+  // check if any votes cast — show elim panel
+  var totalVotes=G.game.players.reduce(function(s,p){return s+p.votes;},0);
+  if(totalVotes>0){
+    showElimPanel();
+  }
 }
 
-// ═══════════════════════════════════════════
-//  RESULTS
-// ═══════════════════════════════════════════
+function castVote(idx){
+  G.game.players[idx].votes++;
+  renderGrid();
+}
+
+function showElimPanel(){
+  var max=Math.max.apply(null,G.game.players.map(function(p){return p.votes;}));
+  var top=G.game.players.filter(function(p){return p.votes===max&&!p.out;});
+  var panel=document.getElementById('elim-panel');
+  document.getElementById('elim-panel-t').textContent=
+    top.length>1?'Tie! Clear and re-vote:':'Eliminate '+top.map(function(p){return p.name;}).join(', ')+'?';
+  document.getElementById('elim-chips').innerHTML=
+    top.map(function(p){return '<span class="elim-chip">'+p.name+' ('+p.votes+')</span>';}).join('');
+  panel.style.display='block';
+}
+
+function clearVotes(){
+  G.game.players.forEach(function(p){p.votes=0;});
+  document.getElementById('elim-panel').style.display='none';
+  renderGrid();
+}
+
+function confirmElim(){
+  var max=Math.max.apply(null,G.game.players.map(function(p){return p.votes;}));
+  var top=G.game.players.filter(function(p){return p.votes===max&&!p.out;});
+  // if tie — just clear
+  if(top.length>1){clearVotes();return;}
+  top[0].out=true;
+
+  // check win conditions
+  var remaining=G.game.players.filter(function(p){return !p.out;});
+  var impsLeft=remaining.filter(function(p){return p.role==='i';});
+  var citizensLeft=remaining.filter(function(p){return p.role==='c';});
+
+  document.getElementById('elim-panel').style.display='none';
+  G.game.players.forEach(function(p){p.votes=0;});
+
+  if(impsLeft.length===0){
+    // all impostors out — citizens win
+    goTo('s-results');
+  } else if(impsLeft.length>=citizensLeft.length){
+    // impostors equal or outnumber citizens — impostors win
+    goTo('s-results');
+  } else {
+    // game continues — show next round button
+    document.getElementById('vote-hint').textContent=top[0].name+' was eliminated';
+    document.getElementById('next-round-btn').style.display='block';
+    renderGrid();
+  }
+}
+
+function nextRound(){
+  G.game.round++;
+  G.game.players.forEach(function(p){p.votes=0;});
+  document.getElementById('round-num').textContent=G.game.round;
+  document.getElementById('next-round-btn').style.display='none';
+  document.getElementById('vote-hint').textContent='Tap players to vote';
+  renderGrid();
+}
+
+// ── RESULTS ──
 function buildResults(){
   var players=G.game.players,word=G.game.word,hint=G.game.hint;
   var imps=players.filter(function(p){return p.role==='i';});
   var won=imps.every(function(p){return p.out;});
   var rows=players.map(function(p){
-    var icon=p.role==='c'?'✅':p.role==='i'?'🕵️':'⬜';
-    var rl=p.role==='c'?'Citizen — '+word
-      :p.role==='i'?'Impostor — the word was: '+word
-      :'Blank — no word';
-    var elim=p.out?'<span class="relim">eliminated</span>':'';
+    var icon=p.role==='c'?'✅':'🕵️';
+    var rl=p.role==='c'?'Citizen — '+word:'Impostor — word was: '+word;
+    var elim=p.out?'<span class="relim">out</span>':'';
     return '<div class="rrow">'
       +'<div class="rav" style="background:'+p.color[1]+';color:'+p.color[0]+'">'+p.init+'</div>'
       +'<div style="flex:1;min-width:0"><div class="rnm">'+p.name+' '+elim+'</div><div class="rrl">'+rl+'</div></div>'
@@ -779,16 +749,11 @@ function buildResults(){
     +'<div class="sp"></div>';
 }
 
-function rematch(){G.game.players.forEach(function(p){p.out=false;});startGame();}
-function confirmQuit(){if(confirm('Quit this game?')) goTo('s-setup');}
+function rematch(){G.game.players.forEach(function(p){p.out=false;p.votes=0;});startGame();}
+function confirmQuit(){if(confirm('Quit?'))goTo('s-setup');}
 function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}}
 
-// ═══════════════════════════════════════════
-//  INIT
-// ═══════════════════════════════════════════
-buildCats();
-buildNames();
-validate();
+buildCats();buildNames();validate();
 </script>
 </body>
 </html>
