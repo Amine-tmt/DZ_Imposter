@@ -91,9 +91,7 @@ html,body{font-family:var(--fu);background:var(--bg);color:var(--ink);min-height
 .tog.on{background:var(--ink)}
 .tok{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
 .tog.on .tok{transform:translateX(20px)}
-.cats{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
-.cat{padding:6px 12px;border-radius:100px;border:1.5px solid var(--b2);background:transparent;color:var(--ink2);font-family:var(--fu);font-size:12px;font-weight:500;cursor:pointer}
-.cat.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+
 .nrow{display:flex;align-items:center;gap:8px;margin-top:9px}
 .nnum{width:24px;height:24px;border-radius:50%;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .ninp{flex:1;padding:8px 11px;border:1.5px solid var(--b1);border-radius:8px;font-family:var(--fu);font-size:14px;background:var(--bg);color:var(--ink);outline:none}
@@ -267,13 +265,7 @@ html,body{font-family:var(--fu);background:var(--bg);color:var(--ink);min-height
         <button class="tog on" id="htog" onclick="toggleHints()"><span class="tok"></span></button>
       </div>
     </div>
-    <div class="sblk">
-      <div class="srow" style="margin-bottom:0">
-        <span class="slbl">Categories</span>
-        <button class="cat on" id="sel-all-btn" onclick="toggleAll()" style="font-size:11px;padding:5px 11px">All</button>
-      </div>
-      <div class="cats" id="cats"></div>
-    </div>
+
     <div class="sblk">
       <span class="slbl">Names <span class="opt">optional</span></span>
       <div id="nlist"></div>
@@ -352,132 +344,124 @@ html,body{font-family:var(--fu);background:var(--bg);color:var(--ink);min-height
 </div>
 
 <script>
-var CATS={
-  makla:"🍲 Makla",blayet:"📍 Blayet",darja:"🗣️ Darja",
-  "3adat":"🎭 3adat",machahir:"⭐ Machahir",derb:"🛵 Derb",
-  drassa:"📚 Mdrassa","3a2ila":"👪 3a2ila",custom:"✏️ Custom"
-};
-
+// ── WORD LIST ──
 var PAIRS=[
-  {c:"kesra",h:"bread made at home, served hot with everything",cat:"makla"},
-  {c:"chakhchoukha",h:"crumbled pasta dish, classic at weddings",cat:"makla"},
-  {c:"mhajeb",h:"folded layered flatbread, Algerian breakfast",cat:"makla"},
-  {c:"karantika",h:"hot chickpea street food, pride of Oran",cat:"makla"},
-  {c:"chorba frik",h:"Ramadan soup, yemma makes it every night",cat:"makla"},
-  {c:"tbikha",h:"slow-cooked vegetable stew, Friday lunch",cat:"makla"},
-  {c:"rechta",h:"flat noodle dish from Algiers, winter comfort",cat:"makla"},
-  {c:"bourak",h:"fried pastry stuffed with egg or tuna, Ramadan",cat:"makla"},
-  {c:"kalb elouz",h:"diamond-shaped almond cake, made for weddings",cat:"makla"},
-  {c:"tamina",h:"toasted semolina sweet, given after childbirth",cat:"makla"},
-  {c:"makroud",h:"semolina and date pastry, eastern Algeria specialty",cat:"makla"},
-  {c:"merguez",h:"spiced red meat, grilled at every barbecue",cat:"makla"},
-  {c:"cay",h:"hot drink in a small glass, served at every visit",cat:"makla"},
-  {c:"lham lahlou",h:"sweet and savoury meat dish, wedding ceremony",cat:"makla"},
-  {c:"3asida",h:"thick grain porridge, traditional cold morning meal",cat:"makla"},
-  {c:"mchi",h:"stuffed vegetables with meat, Sunday dish",cat:"makla"},
-  {c:"matloua",h:"round bread cooked in a pan or oven",cat:"makla"},
-  {c:"casbah",h:"historic old quarter, narrow winding streets",cat:"blayet"},
-  {c:"7ammam",h:"where Algerians go to wash, traditional ritual",cat:"blayet"},
-  {c:"7anut",h:"corner shop, owner knows the whole neighbourhood",cat:"blayet"},
-  {c:"3mariya",h:"outdoor market, loud and chaotic",cat:"blayet"},
-  {c:"qahwa",h:"café where men gather every morning",cat:"blayet"},
-  {c:"stade",h:"where football happens",cat:"blayet"},
-  {c:"tram",h:"city public transport",cat:"blayet"},
-  {c:"cité",h:"residential estate, everyone knows each other",cat:"blayet"},
-  {c:"plage",h:"summer destination, sun and sea",cat:"blayet"},
-  {c:"wilaya",h:"government office nobody enjoys visiting",cat:"blayet"},
-  {c:"zawiya",h:"religious and community gathering place",cat:"blayet"},
-  {c:"douar",h:"rural village, where the family roots are",cat:"blayet"},
-  {c:"labas",h:"how you reply when asked how you are",cat:"darja"},
-  {c:"sa7bi",h:"what you call your closest friend",cat:"darja"},
-  {c:"7chouma",h:"when someone does something embarrassing",cat:"darja"},
-  {c:"zwina",h:"complimenting someone's appearance",cat:"darja"},
-  {c:"wili",h:"exclamation of shock or disbelief",cat:"darja"},
-  {c:"tmara",h:"feeling exhausted and done with it all",cat:"darja"},
-  {c:"ga3",h:"means all or everything, no exception",cat:"darja"},
-  {c:"gach",h:"the police, feds",cat:"darja"},
-  {c:"jaw",h:"the vibe or atmosphere of a moment",cat:"darja"},
-  {c:"za7ri",h:"when luck is on your side",cat:"darja"},
-  {c:"mra7",h:"feeling happy and at ease",cat:"darja"},
-  {c:"dima",h:"always, without exception",cat:"darja"},
-  {c:"khorti",h:"calling someone crazy or nonsense",cat:"darja"},
-  {c:"wech rak",h:"asking how someone is doing",cat:"darja"},
-  {c:"3lach",h:"asking why",cat:"darja"},
-  {c:"yezzi",h:"telling someone to stop, that's enough",cat:"darja"},
-  {c:"bzaf",h:"a lot, in great quantity",cat:"darja"},
-  {c:"rahi",h:"she is / I am — presence word in darja",cat:"darja"},
-  {c:"zerda",h:"communal feast, the whole neighbourhood invited",cat:"3adat"},
-  {c:"3arss",h:"Algerian wedding, minimum three days",cat:"3adat"},
-  {c:"raï",h:"the most iconic Algerian music genre",cat:"3adat"},
-  {c:"gasba",h:"traditional wind instrument, southern Algeria",cat:"3adat"},
-  {c:"burnous",h:"long traditional robe worn by Algerian men",cat:"3adat"},
-  {c:"7ayek",h:"white traditional fabric worn by Algerian women",cat:"3adat"},
-  {c:"7enna",h:"the night before the wedding, body art traditions",cat:"3adat"},
-  {c:"derbouqa",h:"traditional Algerian percussion instrument",cat:"3adat"},
-  {c:"chaoui",h:"Amazigh people of eastern Algeria",cat:"3adat"},
-  {c:"mouloud",h:"Islamic celebration, sweets and children",cat:"3adat"},
-  {c:"sebiba",h:"traditional festival in Djanet, deep south Algeria",cat:"3adat"},
-  {c:"tifinagh",h:"ancient writing system, Amazigh identity",cat:"3adat"},
-  {c:"chechia",h:"traditional Algerian head covering for men",cat:"3adat"},
-  {c:"Khaled",h:"king of raï, from Oran",cat:"machahir"},
-  {c:"Cheb Mami",h:"prince of raï, powerful voice from Oran",cat:"machahir"},
-  {c:"Cheikha Rimitti",h:"founding mother of Algerian raï",cat:"machahir"},
-  {c:"Warda Charlamante",h:"iconic female raï voice from Oran",cat:"machahir"},
-  {c:"Cheba Fadela",h:"female raï star of the 80s and 90s",cat:"machahir"},
-  {c:"Warda el Jazairia",h:"the Algerian Rose, giant of Arab song",cat:"machahir"},
-  {c:"Rachid Taha",h:"Algerian musician who broke internationally",cat:"machahir"},
-  {c:"Idir",h:"Kabyle legend, A Vava Inouva",cat:"machahir"},
-  {c:"Lounès Matoub",h:"rebel Kabyle singer, cultural martyr",cat:"machahir"},
-  {c:"Amar Ezzahi",h:"master of classic Algerian chaabi",cat:"machahir"},
-  {c:"Cheb Akil",h:"popular raï voice of the 90s",cat:"machahir"},
-  {c:"Soolking",h:"Algerian rapper, over one billion views",cat:"machahir"},
-  {c:"Lotfi DK",h:"Algerian street rap, sharp pen",cat:"machahir"},
-  {c:"DJ Snake",h:"Algerian-origin artist, global success",cat:"machahir"},
-  {c:"Didine Canon 16",h:"raï-rap fusion, millions of fans in Algeria",cat:"machahir"},
-  {c:"Anes Tina",h:"Algerian comedian with millions of followers",cat:"machahir"},
-  {c:"Just Riadh",h:"Franco-Algerian content creator",cat:"machahir"},
-  {c:"Raouf Khelif",h:"Algerian YouTube comedy star",cat:"machahir"},
-  {c:"Smain",h:"classic Algerian stand-up comedian",cat:"machahir"},
-  {c:"Biyouna",h:"beloved Algerian actress and singer",cat:"machahir"},
-  {c:"Mahrez",h:"Algerian winger, Premier League level",cat:"machahir"},
-  {c:"Bennacer",h:"key Fennecs midfielder, plays in Europe",cat:"machahir"},
-  {c:"Slimani",h:"Algerian striker who played in top clubs",cat:"machahir"},
-  {c:"Feghouli",h:"Algerian midfielder, long European career",cat:"machahir"},
-  {c:"Rabah Madjer",h:"greatest Algerian footballer of all time",cat:"machahir"},
-  {c:"Lakhdar Belloumi",h:"Algerian football legend, golden era",cat:"machahir"},
-  {c:"Sofia Boutella",h:"Algerian actress in major international films",cat:"machahir"},
-  {c:"Leïla Bekhti",h:"acclaimed Franco-Algerian actress",cat:"machahir"},
-  {c:"Hassiba Boulmerka",h:"Algerian Olympic athletics champion",cat:"machahir"},
-  {c:"Noureddine Morceli",h:"world record holder in middle-distance running",cat:"machahir"},
-  {c:"squali",h:"describing someone by their social class",cat:"derb"},
-  {c:"7arraga",h:"someone who leaves Algeria for a better life",cat:"derb"},
-  {c:"système D",h:"finding a workaround, the Algerian way",cat:"derb"},
-  {c:"frima",h:"someone who loves to show off",cat:"derb"},
-  {c:"flous",h:"talking about money",cat:"derb"},
-  {c:"baroud",h:"a fight or heated confrontation",cat:"derb"},
-  {c:"sa7eb el 7anut",h:"the corner shop guy who knows everyone",cat:"derb"},
-  {c:"samsara",h:"the middleman who arranges everything",cat:"derb"},
-  {c:"3ich",h:"living in the moment, enjoying life",cat:"derb"},
-  {c:"bzaza",h:"the one who cheats during the exam",cat:"drassa"},
-  {c:"concours",h:"national test that decides your future in Algeria",cat:"drassa"},
-  {c:"BAC",h:"final high school exam in Algeria",cat:"drassa"},
-  {c:"intendant",h:"the important adult who manages the school",cat:"drassa"},
-  {c:"fiche",h:"written punishment note given at school",cat:"drassa"},
-  {c:"tableau",h:"what the teacher writes on in class",cat:"drassa"},
-  {c:"chef de classe",h:"the elected class representative",cat:"drassa"},
-  {c:"yemma",h:"the most important person in the house",cat:"3a2ila"},
-  {c:"baba",h:"the father, head of the family",cat:"3a2ila"},
-  {c:"3ammi",h:"your father's or mother's brother",cat:"3a2ila"},
-  {c:"jeddi",h:"the eldest male of the family",cat:"3a2ila"},
-  {c:"jedda",h:"the grandmother or beloved old auntie",cat:"3a2ila"},
-  {c:"3ressa",h:"the woman of the house",cat:"3a2ila"},
-  {c:"drari",h:"the young kids running everywhere",cat:"3a2ila"},
-  {c:"jira",h:"the neighbour lady who knows everything",cat:"3a2ila"},
-  // ADD YOUR WORDS: {c:"WORD", h:"vague hint", cat:"custom"},
+  {c:"kesra",         h:"bread made at home, hot and fresh"},
+  {c:"chakhchoukha",  h:"crumbled pasta dish, classic at weddings"},
+  {c:"mhajeb",        h:"folded flatbread, Algerian breakfast staple"},
+  {c:"karantika",     h:"hot chickpea street food, pride of Oran"},
+  {c:"chorba frik",   h:"Ramadan soup, yemma makes it every night"},
+  {c:"rechta",        h:"flat noodle dish from Algiers, winter meal"},
+  {c:"bourak",        h:"fried pastry stuffed with egg or tuna"},
+  {c:"kalb elouz",    h:"diamond almond cake, made for weddings"},
+  {c:"tamina",        h:"toasted semolina sweet, given after childbirth"},
+  {c:"makrout",       h:"semolina and date pastry, eastern Algeria"},
+  {c:"merguez",       h:"spiced red meat, grilled at every barbecue"},
+  {c:"lham lahlou",   h:"sweet and savoury meat dish, wedding ceremony"},
+  {c:"matloua",       h:"round bread cooked in a pan or oven"},
+  {c:"7arira",        h:"thick soup with tomato and lemon, winter"},
+  {c:"berkoukes",     h:"small hand-rolled pasta cooked in broth"},
+  {c:"garantita",     h:"baked chickpea dish eaten with cumin, Oran"},
+  {c:"baklawa",       h:"layered pastry soaked in honey, Eid treat"},
+  {c:"msemen",        h:"square folded flatbread, eaten with honey"},
+  {c:"qalb elouz",    h:"semolina cake soaked in syrup, celebration"},
+  {c:"7lib",          h:"white liquid, comes from cows or goats"},
+  {c:"leben",         h:"fermented sour dairy drink, cold and refreshing"},
+  {c:"3assel",        h:"thick golden sweet liquid, from bees"},
+  {c:"zit",           h:"liquid used for cooking, pressed from olives"},
+  {c:"couscous",      h:"steamed grain dish, Friday family lunch"},
+  {c:"casbah",        h:"historic old quarter, narrow winding streets"},
+  {c:"7ammam",        h:"where Algerians go to wash, tradition"},
+  {c:"7anut",         h:"corner shop, owner knows the whole neighbourhood"},
+  {c:"qahwa",         h:"café where men gather every morning"},
+  {c:"stade",         h:"where football happens"},
+  {c:"tram",          h:"city public transport, Algiers"},
+  {c:"cité",          h:"residential estate, everyone knows each other"},
+  {c:"plage",         h:"summer destination, sun and sea"},
+  {c:"wilaya",        h:"government office nobody enjoys visiting"},
+  {c:"douar",         h:"rural village, where the family roots are"},
+  {c:"dar",           h:"the house, home, where family lives"},
+  {c:"7uma",          h:"the neighbourhood, your local area"},
+  {c:"souk",          h:"traditional market, haggling and noise"},
+  {c:"jam3",          h:"the mosque, place of Friday prayer"},
+  {c:"maktaba",       h:"place where you borrow or buy books"},
+  {c:"sa7bi",         h:"what you call your closest friend"},
+  {c:"bab",           h:"a door or a gate, entrance to something"},
+  {c:"3arss",         h:"Algerian wedding, minimum three days of celebration"},
+  {c:"raï",           h:"the most iconic Algerian music genre"},
+  {c:"burnous",       h:"long traditional robe worn by Algerian men"},
+  {c:"7ayek",         h:"white traditional fabric worn by women"},
+  {c:"7enna",         h:"the night before the wedding, body art traditions"},
+  {c:"derbouqa",      h:"traditional Algerian percussion instrument"},
+  {c:"chaoui",        h:"Amazigh people of eastern Algeria and their culture"},
+  {c:"mouloud",       h:"Islamic celebration, sweets and children"},
+  {c:"cha3bi",        h:"popular Algerian music style from the cities"},
+  {c:"cheb Khaled",   h:"king of raï, born in Oran, global legend"},
+  {c:"Warda Charlamante",h:"iconic female raï voice from Oran"},
+  {c:"Lounès Matoub", h:"rebel Kabyle singer, cultural martyr"},
+  {c:"Soolking",      h:"Algerian rapper, over one billion views"},
+  {c:"Lotfi DK",      h:"Algerian street rap, sharp pen"},
+  {c:"DJ Snake",      h:"Algerian-origin artist, global success"},
+  {c:"Didine Canon 16",h:"raï-rap fusion, millions of fans in Algeria"},
+  {c:"Smina",         h:"Algerian actress known for comedy roles"},
+  {c:"Biyouna",       h:"beloved Algerian actress and singer"},
+  {c:"Mahrez",        h:"Algerian winger, Premier League level"},
+  {c:"Slimani",       h:"Algerian striker who played in top clubs"},
+  {c:"7arraga",       h:"someone who leaves Algeria for a better life"},
+  {c:"drahm",         h:"money, coins, what you pay with"},
+  {c:"baroud",        h:"a fight or heated confrontation"},
+  {c:"BAC",           h:"final high school exam in Algeria"},
+  {c:"fiche",         h:"written punishment note given at school"},
+  {c:"tableau",       h:"what the teacher writes on in class"},
+  {c:"BEM",           h:"middle school exit exam in Algeria"},
+  {c:"lycée",         h:"high school, last three years before BAC"},
+  {c:"yemma",         h:"the most important person in the house"},
+  {c:"baba",          h:"the father, head of the family"},
+  {c:"3ammi",         h:"your father's or mother's brother"},
+  {c:"jeddi",         h:"the eldest male of the family, grandfather"},
+  {c:"jedda",         h:"the grandmother, makes the best food"},
+  {c:"drari",         h:"the young kids running everywhere"},
+  {c:"khti",          h:"my sister, female sibling"},
+  {c:"weld 3ammi",    h:"your cousin on your father's side"},
+  {c:"9ochi7a",       h:"a bowl, used for eating or serving food"},
+  {c:"tboun",         h:"straw or hay, kept for animals"},
+  {c:"polytech",      h:"competitive engineering school in Algeria"},
+  {c:"blida",         h:"city of roses, close to Algiers, Atlas mountains"},
+  {c:"3adyan",        h:"ordinary, just a regular guy, nothing special"},
+  {c:"kelb",          h:"four-legged animal, man's best friend"},
+  {c:"7mer",          h:"stubborn animal with long ears, carries loads"},
+  {c:"bghal",         h:"mix between a horse and a donkey"},
+  {c:"sardin",        h:"small fish, eaten grilled or in a can"},
+  {c:"na3ja",         h:"female sheep, sacrificed at 3id el kbir"},
+  {c:"tabib",         h:"the person you go to when you are sick"},
+  {c:"3askri",        h:"wears a uniform, protects the country"},
+  {c:"fallah",        h:"works the land, grows food in the fields"},
+  {c:"tabla",         h:"percussion instrument, hit with hands"},
+  {c:"botata",        h:"starchy vegetable, fried or boiled, everyone loves it"},
+  {c:"dyna",          h:"small Renault van, used for everything in Algeria"},
+  {c:"koko l9irch",   h:"street snack, puffed corn in a bag, kids love it"},
+  {c:"l7rach",        h:"insects that swarm in summer, loud at night"},
+  {c:"dlaa3",         h:"big green fruit, red inside, eaten in summer"},
+  {c:"m7bol",         h:"someone acting crazy or out of their mind"},
+  {c:"lw9t",          h:"something you never have enough of, passes fast"},
+  {c:"sa3a",          h:"device on your wrist, tells you the time"},
+  {c:"kdab",          h:"someone who never tells the truth"},
+  {c:"tyara",         h:"machine that flies, takes you abroad"},
+  {c:"bus",           h:"big public vehicle, full of people"},
+  {c:"tonobil",       h:"personal vehicle, four wheels, you drive it"},
+  {c:"7azag",         h:"someone annoying, gets on your nerves"},
+  {c:"hab hab",       h:"watermelon in some Algerian regions"},
+  {c:"7afouzli9",     h:"sticky, something that clings and won't let go"},
+  {c:"chmi3at",       h:"candles, used when electricity cuts out"},
+  {c:"lkhra",         h:"something disgusting, used as an insult"},
+  {c:"fou7a",         h:"a strong smell, good or bad"},
+  {c:"bouzlouf",      h:"sheep's head cooked whole, street food classic"},
+  {c:"meow",          h:"the sound a cat makes"},
+  {c:"rattrapage",    h:"second chance exam when you fail the first time"},
 ];
 
 // ── STATE ──
-var G={players:5,imps:1,names:[],hints:true,cats:['makla'],game:null};
+var G={players:5,imps:1,names:[],hints:true,game:null,used:[]};
 var revIdx=0,cardRevealed=false;
 var COLORS=[
   ['#1b4530','#dff0e8'],['#b52b1e','#fce9e7'],['#b8860b','#fdf4dc'],
@@ -508,36 +492,6 @@ function toggleHints(){
   document.getElementById('htog').classList.toggle('on',G.hints);
   document.getElementById('hint-sub').textContent=G.hints?'On — impostor sees a vague clue':'Off — impostor is completely blind';
 }
-var ALL_CATS=Object.keys(CATS);
-function syncAllBtn(){
-  var all=ALL_CATS.filter(function(k){return k!=='custom'||PAIRS.some(function(p){return p.cat==='custom';});});
-  var allOn=all.every(function(k){return G.cats.indexOf(k)>=0;});
-  var btn=document.getElementById('sel-all-btn');
-  if(btn){btn.textContent=allOn?'All ✓':'All';btn.classList.toggle('on',allOn);}
-}
-function toggleAll(){
-  var avail=ALL_CATS.filter(function(k){return k!=='custom'||PAIRS.some(function(p){return p.cat==='custom';});});
-  var allOn=avail.every(function(k){return G.cats.indexOf(k)>=0;});
-  G.cats=allOn?[avail[0]]:avail.slice();
-  buildCats();
-}
-function buildCats(){
-  var avail=ALL_CATS.filter(function(k){return k!=='custom'||PAIRS.some(function(p){return p.cat==='custom';});});
-  var el=document.getElementById('cats');el.innerHTML='';
-  avail.forEach(function(k){
-    var b=document.createElement('button');
-    b.className='cat'+(G.cats.indexOf(k)>=0?' on':'');
-    b.textContent=CATS[k];
-    b.onclick=function(){
-      var i=G.cats.indexOf(k);
-      if(i>=0){if(G.cats.length===1)return;G.cats.splice(i,1);b.classList.remove('on');}
-      else{G.cats.push(k);b.classList.add('on');}
-      syncAllBtn();
-    };
-    el.appendChild(b);
-  });
-  syncAllBtn();
-}
 function buildNames(){
   var n=G.players;
   while(G.names.length<n)G.names.push('');
@@ -557,11 +511,14 @@ function validate(){
   document.getElementById('deal-btn').disabled=!ok;
 }
 
-// ── START ──
+// ── START ── with used-word tracking so nothing repeats until all played
 function startGame(){
-  var pool=PAIRS.filter(function(p){return G.cats.indexOf(p.cat)>=0;});
-  if(!pool.length){alert('No words in selected categories');return;}
+  // if all words used, reset the tracker
+  if(G.used.length>=PAIRS.length) G.used=[];
+  var pool=PAIRS.filter(function(p){return G.used.indexOf(p.c)<0;});
+  if(!pool.length){G.used=[];pool=PAIRS.slice();}
   var pair=pool[Math.floor(Math.random()*pool.length)];
+  G.used.push(pair.c);
   var roles=[];
   for(var i=0;i<G.imps;i++)roles.push('i');
   while(roles.length<G.players)roles.push('c');
@@ -611,14 +568,17 @@ function tapCard(){
   document.getElementById('crd-lock').style.display='none';
   open.style.display='flex';
 
-  var last=(revIdx===G.game.players.length-1);
-  if(last){
-    var imps=G.game.players.filter(function(x){return x.role==='i';});
-    if(imps.length>1){
-      document.getElementById('imps-chips').innerHTML=imps.map(function(u){return '<span class="imps-chip">'+u.name+'</span>';}).join('');
+  // show fellow impostors ONLY if current player is an impostor
+  if(p.role==='i'){
+    var allImps=G.game.players.filter(function(x){return x.role==='i';});
+    var others=allImps.filter(function(x){return x!==p;});
+    if(others.length>0){
+      document.getElementById('imps-chips').innerHTML=others.map(function(u){return '<span class="imps-chip">'+u.name+'</span>';}).join('');
       document.getElementById('imps-band').style.display='block';
     }
   }
+
+  var last=(revIdx===G.game.players.length-1);
   var btn=document.getElementById('btn-action');
   btn.style.display='block';
   if(last){
@@ -749,11 +709,11 @@ function buildResults(){
     +'<div class="sp"></div>';
 }
 
-function rematch(){G.game.players.forEach(function(p){p.out=false;p.votes=0;});startGame();}
+function rematch(){G.game.players.forEach(function(p){p.out=false;p.votes=0;});G.game.round=1;startGame();}
 function confirmQuit(){if(confirm('Quit?'))goTo('s-setup');}
 function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}}
 
-buildCats();buildNames();validate();
+buildNames();validate();
 </script>
 </body>
 </html>
